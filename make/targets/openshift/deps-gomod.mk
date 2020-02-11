@@ -15,8 +15,8 @@ endef
 verify-deps: tmp_dir:=$(shell mktemp -d)
 verify-deps:
 	$(call restore-deps,$(tmp_dir))
-	$(deps_diff) "$(tmp_dir)"/{current,updated}/go.mod || echo '`go.mod` content is incorrect - did you run `go mod tidy`?' && false
-	$(deps_diff) "$(tmp_dir)"/{current,updated}/go.sum || echo '`go.sum` content is incorrect - did you run `go mod tidy`?' && false
+	$(deps_diff) "$(tmp_dir)"/{current,updated}/go.mod || ( echo '`go.mod` content is incorrect - did you run `go mod tidy`?' && false )
+	$(deps_diff) "$(tmp_dir)"/{current,updated}/go.sum || ( echo '`go.sum` content is incorrect - did you run `go mod tidy`?' && false )
 	@echo $(deps_diff) '$(tmp_dir)'/{current,updated}/deps.diff
 	@     $(deps_diff) '$(tmp_dir)'/{current,updated}/deps.diff || ( \
 		echo "ERROR: Content of 'vendor/' directory doesn't match 'go.mod' configuration and the overrides in 'deps.diff'!" && \
