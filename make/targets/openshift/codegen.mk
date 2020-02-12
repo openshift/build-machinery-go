@@ -1,3 +1,5 @@
+SHELL :=/bin/bash
+
 CODEGEN_PKG ?=./vendor/k8s.io/code-generator/
 CODEGEN_GENERATORS ?=all
 CODEGEN_OUTPUT_BASE ?=../../..
@@ -9,6 +11,7 @@ CODEGEN_OUTPUT_PACKAGE ?=$(error CODEGEN_OUTPUT_PACKAGE is required)
 
 define run-codegen
 $(CODEGEN_PKG)/generate-groups.sh \
+	"$(SHELL)" \
 	"$(CODEGEN_GENERATORS)" \
 	"$(CODEGEN_OUTPUT_PACKAGE)" \
 	"$(CODEGEN_API_PACKAGE)" \
