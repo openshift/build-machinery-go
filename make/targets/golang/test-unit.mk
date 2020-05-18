@@ -1,3 +1,4 @@
+SHELL := /bin/bash
 self_dir :=$(dir $(lastword $(MAKEFILE_LIST)))
 
 test-unit:
