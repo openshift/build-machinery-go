@@ -17,8 +17,6 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen'
-if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f '_output/tools/bin/yq'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
@@ -29,8 +27,6 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen'
-if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f '_output/tools/bin/yq'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
@@ -55,8 +51,6 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen'
-if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f '_output/tools/bin/yq'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
@@ -66,8 +60,6 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen'
-if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f '_output/tools/bin/yq'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
@@ -81,8 +73,6 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen'
-if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f '_output/tools/bin/yq'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
@@ -92,8 +82,6 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen'
-if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f '_output/tools/bin/yq'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
@@ -101,10 +89,6 @@ if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 cp -r ./testing/manifests/initial/* ./manifests/
 diff -Naup ./testing/manifests/initial/ ./manifests/
 ! make verify-codegen-crds
-Installing controller-gen into '_output/tools/bin/controller-gen'
-mkdir -p '_output/tools/bin/'
-curl -s -f -L https://github.com/openshift/kubernetes-sigs-controller-tools/releases/download/v0.2.1-37-ga3cca5d/controller-gen-linux-amd64 -o '_output/tools/bin/controller-gen'
-chmod +x '_output/tools/bin/controller-gen';
 Installing yq into '_output/tools/bin/yq'
 mkdir -p '_output/tools/bin/'
 curl -s -f -L https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64 -o '_output/tools/bin/yq'
@@ -153,13 +137,11 @@ chmod +x '_output/tools/bin/yq';
    - name: v1beta1
 make[2]: *** [verify-codegen-crds-manifests] Error 1
 make update-codegen-crds
-Using existing controller-gen from "_output/tools/bin/controller-gen"
 Using existing yq from "_output/tools/bin/yq"
-'_output/tools/bin/controller-gen' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" output:dir="./manifests"
+go run  "./vendor/sigs.k8s.io/controller-tools/cmd/controller-gen" schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" output:dir="./manifests"
 _output/tools/bin/yq m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yq m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
 make verify-codegen-crds
-Using existing controller-gen from "_output/tools/bin/controller-gen"
 Using existing yq from "_output/tools/bin/yq"
 cp -r ./testing/manifests/initial/*.crd.yaml-merge-patch ./manifests/
 ! diff -Naup ./testing/manifests/initial/ ./manifests/ 2>/dev/null 1>&2
@@ -168,8 +150,6 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen'
-if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f '_output/tools/bin/yq'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
@@ -179,8 +159,6 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen'
-if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f '_output/tools/bin/yq'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
