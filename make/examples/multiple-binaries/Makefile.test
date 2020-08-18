@@ -59,7 +59,7 @@ test-codegen:
 
 	$(MAKE) update-codegen-crds
 	$(MAKE) verify-codegen-crds
-	cp -r ./testing/manifests/initial/*.crd.yaml-merge-patch ./manifests/
+	cp -r ./testing/manifests/initial/*.crd.yaml{-merge-patch,-patch} ./manifests/
 	! diff -Naup ./testing/manifests/initial/ ./manifests/ 2>/dev/null 1>&2
 	diff -Naup ./testing/manifests/updated/ ./manifests/
 
