@@ -33,6 +33,7 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 
 	scheme.AddKnownTypes(GroupVersion,
 		&MyOperatorResource{},
+		&MyV1Resource{},
 	)
 
 	return nil

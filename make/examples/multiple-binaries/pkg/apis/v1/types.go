@@ -23,3 +23,23 @@ type MyOperatorResource struct {
 type MyOperatorResourceSpec struct {
 	Name string `json:"name"`
 }
+
+// +genclient
+// +genclient:nonNamespaced
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +kubebuilder:object:root=true
+// +kubebuilder:storageversion
+
+// MyV1Resource is an example operator configuration type
+type MyV1Resource struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata"`
+
+	// +kubebuilder:validation:Required
+	// +required
+	Spec MyV1ResourceSpec `json:"spec"`
+}
+
+type MyV1ResourceSpec struct {
+	Name string `json:"name"`
+}
