@@ -10,12 +10,13 @@ TMP_GOPATH :=$(shell mktemp -d)
 # $3 - pkg
 # $4 - output
 # $5 - output prefix
+# $6 - ignore regex (defaults to OWNERS)
 define run-bindata
 	$(TMP_GOPATH)/bin/go-bindata -nocompress -nometadata \
 		-prefix "$(2)" \
 		-pkg "$(3)" \
 		-o "$(5)$(4)" \
-		-ignore "OWNERS" \
+		-ignore "$(if $(6),$(6),OWNERS)" \
 		$(1) && \
 	gofmt -s -w "$(5)$(4)"
 endef
@@ -25,9 +26,10 @@ endef
 # $3 - prefix
 # $4 - pkg
 # $5 - output
+# $6 - ignore regex (defaults to OWNERS)
 define add-bindata-internal
 update-bindata-$(1): .ensure-go-bindata
-	$(call run-bindata,$(2),$(3),$(4),$(5),)
+	$(call run-bindata,$(2),$(3),$(4),$(5),,$(6))
 .PHONY: update-bindata-$(1)
 
 update-bindata: update-bindata-$(1)
@@ -37,7 +39,7 @@ update-bindata: update-bindata-$(1)
 verify-bindata-$(1): .ensure-go-bindata
 verify-bindata-$(1): TMP_DIR := $$(shell mktemp -d)
 verify-bindata-$(1):
-	$(call run-bindata,$(2),$(3),$(4),$(5),$$(TMP_DIR)/) && \
+	$(call run-bindata,$(2),$(3),$(4),$(5),$$(TMP_DIR)/,$(6)) && \
 	diff -Naup {.,$$(TMP_DIR)}/$(5)
 .PHONY: verify-bindata-$(1)
 
@@ -61,5 +63,5 @@ verify: verify-generated
 
 
 define add-bindata
-$(eval $(call add-bindata-internal,$(1),$(2),$(3),$(4),$(5)))
+$(eval $(call add-bindata-internal,$(1),$(2),$(3),$(4),$(5),$(6)))
 endef
