@@ -6,7 +6,7 @@ self_dir :=$(dir $(lastword $(MAKEFILE_LIST)))
 # $3 - output file
 define patch-manifest-yq
 	$(YQ) m -x '$(2)' '$(1)' > '$(3)'
-	
+
 endef
 
 # Apply yaml-patch using krishicks/yaml-patch
@@ -18,17 +18,8 @@ define patch-manifest-yaml-patch
 
 endef
 
-# List of patches of type 'yaml-patch'
-# $1 - patch dir
-define profile-yaml-patches
-	$(shell find $(1) -type f -name '*.yaml-patch')
-endef
-
-# List of patches of type 'yaml-merge-patch'
-# $1 - patch dir
-define profile-yaml-merge-patches
-	$(shell find $(1) -type f -name '*.yaml-merge-patch')
-endef
+profile-yaml-patches = $(sort $(shell find $(1) -type f -name '*.yaml-patch'))
+profile-yaml-merge-patches = $(sort $(shell find $(1) -type f -name '*.yaml-merge-patch'))
 
 # Apply profile patches to manifests
 # $1 - patch dir
@@ -44,17 +35,15 @@ endef
 define add-profile-manifests-internal
 
 update-profile-manifests-$(1): ensure-yq ensure-yaml-patch
-	$(call apply-profile-manifest-patches,$(2),$(3),$(3))
+	$(call apply-profile-manifest-patches,$(2),$(3))
 .PHONY: update-profile-manifests-$(1)
 
 update-profile-manifests: update-profile-manifests-$(1)
 .PHONY: update-profile-manifests
 
-foobar := /var/folders/_0/rfp4rhc541n6xqsmlskjyd300000gn/T/tmp.Rpt8z3Jb
-
 verify-profile-manifests-$(1): VERIFY_PROFILE_MANIFESTS_TMP_DIR:=$$(shell mktemp -d)
 verify-profile-manifests-$(1): ensure-yq ensure-yaml-patch
-	cp $(3)/* $$(VERIFY_PROFILE_MANIFESTS_TMP_DIR)/
+	cp -R $(3)/* $$(VERIFY_PROFILE_MANIFESTS_TMP_DIR)/
 	$(call apply-profile-manifest-patches,$(2),$$(VERIFY_PROFILE_MANIFESTS_TMP_DIR))
 	diff -Naup $(3) $$(VERIFY_PROFILE_MANIFESTS_TMP_DIR)
 .PHONY: verify-profile-manifests-$(1)
@@ -77,8 +66,6 @@ verify: verify-generated
 endef
 
 
-
-
 # $1 - target name
 # $2 - profile patches dir
 # $3 - manifests dir
@@ -93,5 +80,5 @@ endef
 include $(addprefix $(self_dir), \
 	../../../lib/tmp.mk \
 	../yq.mk \
-        ../yaml-patch.mk \
+	../yaml-patch.mk \
 )
