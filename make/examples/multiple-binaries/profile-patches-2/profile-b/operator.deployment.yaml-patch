@@ -1,0 +1,6 @@
+- op: remove
+  path: /metadata/annotations
+- op: add
+  path: /metadata/annotations
+  value:
+    cluster-profile: profile-b

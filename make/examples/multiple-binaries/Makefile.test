@@ -1,6 +1,6 @@
 SHELL :=/bin/bash -euo pipefail
 
-test: | test-build test-cross-build test-rpm test-codegen
+test: | test-build test-cross-build test-rpm test-codegen test-profile-manifests
 .PHONY: test
 
 test-build:
@@ -67,3 +67,19 @@ test-codegen:
 	[[ ! -d ./_output/ ]] || (ls -l ./_output/ && false)
 	$(MAKE) clean
 .PHONY: test-codegen
+
+test-profile-manifests:
+	rm -f ./profile-manifests-1/* ./profile-manifests-2/*
+	cp ./testing/profile-manifests/initial/* ./profile-manifests-1/
+	cp ./testing/profile-manifests/initial/* ./profile-manifests-2/
+	! $(MAKE) verify-profile-manifests
+
+	$(MAKE) update-profile-manifests
+	! diff -Naup ./testing/profile-manifests/initial/ ./profile-manifests-1/ &> /dev/null
+	! diff -Naup ./testing/profile-manifests/initial/ ./profile-manifests-2/ &> /dev/null
+	diff -Naup ./testing/profile-manifests/updated-1 ./profile-manifests-1/
+
+	$(MAKE) clean
+	[[ ! -d ./_output/ ]] || (ls -l ./_output/ && false)
+	$(MAKE) clean
+.PHONY: test-profile-manifests
