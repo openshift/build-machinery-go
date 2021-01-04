@@ -11,4 +11,5 @@ update-gofmt
 verify
 verify-gofmt
 verify-golint
+verify-gomod
 verify-govet

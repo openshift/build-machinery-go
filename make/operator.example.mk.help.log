@@ -22,4 +22,5 @@ verify-deps
 verify-generated
 verify-gofmt
 verify-golint
+verify-gomod
 verify-govet
