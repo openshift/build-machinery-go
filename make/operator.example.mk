@@ -27,7 +27,7 @@ CODEGEN_GROUPS_VERSION :=openshiftapiserver:v1alpha1
 # $3 - Dockerfile path
 # $4 - context
 # It will generate target "image-$(1)" for builing the image an binding it as a prerequisite to target "images".
-$(call build-image,ocp-openshift-apiserver-operator,registry.svc.ci.openshift.org/ocp/4.2:openshift-apiserver-operator,./Dockerfile.rhel,.)
+$(call build-image,ocp-openshift-apiserver-operator,registry.ci.openshift.org/ocp/4.2:openshift-apiserver-operator,./Dockerfile.rhel,.)
 
 # This will call a macro called "add-bindata" which will generate bindata specific targets based on the parameters:
 # $0 - macro name
@@ -39,4 +39,3 @@ $(call build-image,ocp-openshift-apiserver-operator,registry.svc.ci.openshift.or
 # It will generate targets {update,verify}-bindata-$(1) logically grouping them in unsuffixed versions of these targets
 # and also hooked into {update,verify}-generated for broader integration.
 $(call add-bindata,v3.11.0,./bindata/v3.11.0/...,bindata,v311_00_assets,pkg/operator/v311_00_assets/bindata.go)
-
