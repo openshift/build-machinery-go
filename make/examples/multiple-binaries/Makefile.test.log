@@ -222,7 +222,8 @@ mkdir -p '_output/tools/bin/'
 curl -s -f -L https://github.com/krishicks/yaml-patch/releases/download/v0.0.10/yaml_patch_linux -o '_output/tools/bin/yaml-patch'
 chmod +x '_output/tools/bin/yaml-patch';
 --- ./profile-manifests-1/operator.deployment-profile1.yaml	1970-01-01 00:00:00.000000000 +0000
-@@ -0,0 +1,44 @@
+@@ -0,0 +1,45 @@
++# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***
 +apiVersion: apps/v1
 +kind: Deployment
 +metadata:
@@ -268,7 +269,8 @@ chmod +x '_output/tools/bin/yaml-patch';
 +          name: operator-config
 +        name: config
 --- ./profile-manifests-1/operator.deployment-profile2.yaml	1970-01-01 00:00:00.000000000 +0000
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,47 @@
++# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***
 +apiVersion: apps/v1
 +kind: Deployment
 +metadata:
@@ -316,7 +318,8 @@ chmod +x '_output/tools/bin/yaml-patch';
 +          name: operator-config
 +        name: config
 --- ./profile-manifests-1/operator.service-profile1.yaml	1970-01-01 00:00:00.000000000 +0000
-@@ -0,0 +1,17 @@
+@@ -0,0 +1,18 @@
++# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***
 +apiVersion: v1
 +kind: Service
 +metadata:
@@ -335,7 +338,8 @@ chmod +x '_output/tools/bin/yaml-patch';
 +    app: my-operator
 +  type: ClusterIP
 --- ./profile-manifests-1/operator.service-profile2.yaml	1970-01-01 00:00:00.000000000 +0000
-@@ -0,0 +1,17 @@
+@@ -0,0 +1,18 @@
++# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***
 +apiVersion: v1
 +kind: Service
 +metadata:
@@ -358,13 +362,21 @@ make update-profile-manifests
 Using existing yq from "_output/tools/bin/yq"
 Using existing yaml-patch from "_output/tools/bin/yaml-patch"
 _output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile1.yaml'
+sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile1.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
 _output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile2.yaml'
+sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile2.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
 _output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service-profile1.yaml'
+sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service-profile1.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
 _output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service-profile2.yaml'
+sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service-profile2.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
 _output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-a.yaml'
+sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-a.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
 _output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-b.yaml'
+sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-b.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
 _output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service-profile-a.yaml'
+sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service-profile-a.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
 _output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service-profile-b.yaml'
+sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service-profile-b.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
 ! diff -Naup ./testing/profile-manifests/initial/ ./profile-manifests-1/ &> /dev/null
 ! diff -Naup ./testing/profile-manifests/initial/ ./profile-manifests-2/ &> /dev/null
 diff -Naup ./testing/profile-manifests/updated-1 ./profile-manifests-1/
