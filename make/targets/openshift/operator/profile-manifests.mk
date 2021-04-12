@@ -5,8 +5,8 @@ self_dir :=$(dir $(lastword $(MAKEFILE_LIST)))
 # $2 - manifest file
 # $3 - output file
 define patch-manifest-yq
-	$(YQ) m -x '$(2)' '$(1)' > '$(3)'
-	sed -i '$(3)' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
+	( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; \
+		$(YQ) m -x '$(2)' '$(1)' ) > '$(3)'
 
 endef
 
@@ -15,8 +15,8 @@ endef
 # $2 - manifest file
 # $3 - output file
 define patch-manifest-yaml-patch
-	$(YAML_PATCH) -o '$(1)' < '$(2)' > '$(3)'
-	sed -i '$(3)' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
+	( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; \
+		$(YAML_PATCH) -o '$(1)' < '$(2)' ) > '$(3)'
 
 endef
 
