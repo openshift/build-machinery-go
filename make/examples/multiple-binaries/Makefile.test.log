@@ -15,7 +15,7 @@ diff <( ./oc | sed '$d' ) <( \
 )
 make clean
 rm -f oc openshift
-rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
+rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 rm -f '_output/tools/bin/controller-gen'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
@@ -29,7 +29,7 @@ if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 [[ ! -f ./oc ]]
 make clean
 rm -f oc openshift
-rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
+rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 rm -f '_output/tools/bin/controller-gen'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
@@ -57,7 +57,7 @@ go build -trimpath -ldflags "-X github.com/openshift/build-machinery-go/make/exa
 [[ -f ./_output/bin/windows_amd64/oc.exe ]]
 make clean
 rm -f oc openshift
-rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
+rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 rm -f '_output/tools/bin/controller-gen'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
@@ -70,7 +70,7 @@ if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 [[ ! -d ./_output/ ]] || (ls -l ./_output/ && false)
 make clean
 rm -f oc openshift
-rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
+rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 rm -f '_output/tools/bin/controller-gen'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
@@ -82,12 +82,12 @@ rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 [[ ! -d ./_output/ ]] || (ls -l ./_output/ && false)
 make rpm-build SOURCE_GIT_TAG=v42.43.44 SOURCE_GIT_COMMIT=aaa SOURCE_GIT_TREE_STATE=clean
-rpmbuild -ba --define "_topdir /github.com/openshift/build-machinery-go/make/examples/multiple-binaries" --define "go_package github.com/openshift/build-machinery-go/make/examples/multiple-binaries" --quiet --define 'version 2.42.0' --define 'dist .el7' --define 'release 6' ocp.spec
+rpmbuild -ba --define "_topdir /github.com/openshift/build-machinery-go/make/examples/multiple-binaries" --define "_builddir /github.com/openshift/build-machinery-go/make/examples/multiple-binaries" --define "_buildrootdir /github.com/openshift/build-machinery-go/make/examples/multiple-binaries" --define "_rpmdir /github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms" --define "_srcrpmdir /github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms" --define "_specdir /github.com/openshift/build-machinery-go/make/examples/multiple-binaries" --define "_sourcedir /github.com/openshift/build-machinery-go/make/examples/multiple-binaries" --define "go_package github.com/openshift/build-machinery-go/make/examples/multiple-binaries" --quiet --define 'version 2.42.0' --define 'dist .el7' --define 'release 6' ocp.spec
 [[ -f ./_output/rpms/x86_64/openshift-2.42.0-6.el7.x86_64.rpm ]]
 [[ -f ./_output/srpms/openshift-2.42.0-6.el7.src.rpm ]]
 make clean
 rm -f oc openshift
-rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
+rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 rm -f '_output/tools/bin/controller-gen'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
@@ -100,7 +100,7 @@ if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 [[ ! -d ./_output/ ]] || (ls -l ./_output/ && false)
 make clean
 rm -f oc openshift
-rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
+rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 rm -f '_output/tools/bin/controller-gen'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
@@ -186,7 +186,7 @@ cp -r ./testing/manifests/initial/*.crd.yaml{-merge-patch,-patch} ./manifests/
 diff -Naup ./testing/manifests/updated/ ./manifests/
 make clean
 rm -f oc openshift
-rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
+rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 rm -f '_output/tools/bin/controller-gen'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
@@ -199,7 +199,7 @@ if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 [[ ! -d ./_output/ ]] || (ls -l ./_output/ && false)
 make clean
 rm -f oc openshift
-rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
+rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 rm -f '_output/tools/bin/controller-gen'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
@@ -361,28 +361,28 @@ make[2]: *** [verify-profile-manifests-manifests-1] Error 1
 make update-profile-manifests
 Using existing yq from "_output/tools/bin/yq"
 Using existing yaml-patch from "_output/tools/bin/yaml-patch"
-_output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile1.yaml'
+_output/tools/bin/yaml-patch -o './profile-patches-1/profile1/operator.deployment.yaml-patch' < '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment.yaml' > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile1.yaml'
 sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile1.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
-_output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile2.yaml'
+_output/tools/bin/yaml-patch -o './profile-patches-1/profile2/operator.deployment.yaml-patch' < '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment.yaml' > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile2.yaml'
 sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile2.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
-_output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service-profile1.yaml'
+_output/tools/bin/yq m -x '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service.yaml' './profile-patches-1/profile1/operator.service.yaml-merge-patch' > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service-profile1.yaml'
 sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service-profile1.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
-_output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service-profile2.yaml'
+_output/tools/bin/yq m -x '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service.yaml' './profile-patches-1/profile2/operator.service.yaml-merge-patch' > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service-profile2.yaml'
 sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service-profile2.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
-_output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-a.yaml'
+_output/tools/bin/yaml-patch -o './profile-patches-2/profile-a/operator.deployment.yaml-patch' < '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment.yaml' > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-a.yaml'
 sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-a.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
-_output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-b.yaml'
+_output/tools/bin/yaml-patch -o './profile-patches-2/profile-b/operator.deployment.yaml-patch' < '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment.yaml' > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-b.yaml'
 sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-b.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
-_output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service-profile-a.yaml'
+_output/tools/bin/yq m -x '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service.yaml' './profile-patches-2/profile-a/operator.service.yaml-merge-patch' > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service-profile-a.yaml'
 sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service-profile-a.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
-_output/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service-profile-b.yaml'
+_output/tools/bin/yq m -x '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service.yaml' './profile-patches-2/profile-b/operator.service.yaml-merge-patch' > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service-profile-b.yaml'
 sed -i '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service-profile-b.yaml' -e '1s/^/# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***\n/'
 ! diff -Naup ./testing/profile-manifests/initial/ ./profile-manifests-1/ &> /dev/null
 ! diff -Naup ./testing/profile-manifests/initial/ ./profile-manifests-2/ &> /dev/null
 diff -Naup ./testing/profile-manifests/updated-1 ./profile-manifests-1/
 make clean
 rm -f oc openshift
-rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
+rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 rm -f '_output/tools/bin/controller-gen'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
@@ -395,7 +395,7 @@ if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 [[ ! -d ./_output/ ]] || (ls -l ./_output/ && false)
 make clean
 rm -f oc openshift
-rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
+rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 rm -f '_output/tools/bin/controller-gen'
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
