@@ -1,9 +1,7 @@
 self_dir :=$(dir $(lastword $(MAKEFILE_LIST)))
 
 .empty-golang-versions-files:
-	@mkdir -p "$(PERMANENT_TMP)"
 	@rm -f "$(PERMANENT_TMP)/golang-versions" "$(PERMANENT_TMP)/named-golang-versions"
-	@touch "$(PERMANENT_TMP)/golang-versions" "$(PERMANENT_TMP)/named-golang-versions"
 .PHONE: .empty-golang-versions-files
 
 verify-golang-versions:
@@ -22,12 +20,12 @@ verify-golang-versions:
 define verify-golang-version-reference-internal
 verify-golang-versions-$(1): .empty-golang-versions-files
 verify-golang-versions-$(1):
+	@mkdir -p "$(PERMANENT_TMP)"
 	@echo "$(1): $(2)" >> "$(PERMANENT_TMP)/named-golang-versions"
 	@echo "$(2)" >> "$(PERMANENT_TMP)/golang-versions"
 .PHONY: verify-golang-versions-$(1)
 
 verify-golang-versions: verify-golang-versions-$(1)
-.PHONY: verify-golang-versions
 endef
 
 # $1 - filename (symbolic, used as postfix in Makefile target)
