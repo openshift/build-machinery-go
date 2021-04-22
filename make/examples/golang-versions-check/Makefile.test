@@ -1,0 +1,13 @@
+SHELL :=/bin/bash -euo pipefail
+
+test: | test-golang-versions
+.PHONY: test
+
+test-golang-versions:
+	@! $(MAKE) -f fail-1.mk
+	@! $(MAKE) -f fail-2.mk
+	@! $(MAKE) -f fail-3.mk
+	@! $(MAKE) -f fail-4.mk
+	@$(MAKE) -f success-1.mk
+	@$(MAKE) -f success-2.mk
+.PHONY: test-golang-versions
