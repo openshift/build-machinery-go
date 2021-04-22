@@ -7,12 +7,12 @@ self_dir :=$(dir $(lastword $(MAKEFILE_LIST)))
 verify-golang-versions:
 	@if [ -f "$(PERMANENT_TMP)/golang-versions" ]; then \
 		LINES=$$(cat "$(PERMANENT_TMP)/golang-versions" | sort | uniq | wc -l); \
-  		if [ $${LINES} -gt 1 ]; then \
+			if [ $${LINES} -gt 1 ]; then \
 			echo "Golang version mismatch:"; \
 			cat "$(PERMANENT_TMP)/named-golang-versions" | sort | sed 's/^/- /'; \
 			false; \
-    	fi; \
-    fi
+		fi; \
+	fi
 .PHONY: verify-golang-versions
 
 # $1 - filename (symbolic, used as postfix in Makefile target)
