@@ -115,7 +115,7 @@ diff -Naup ./testing/manifests/initial/ ./manifests/
 ! make verify-codegen-crds
 Installing controller-gen into '_output/tools/bin/controller-gen'
 mkdir -p '_output/tools/bin/'
-curl -s -f -L https://github.com/openshift/kubernetes-sigs-controller-tools/releases/download/v0.2.5/controller-gen-linux-amd64 -o '_output/tools/bin/controller-gen'
+curl -s -f -L https://github.com/openshift/kubernetes-sigs-controller-tools/releases/download/v0.6.0/controller-gen-linux-amd64 -o '_output/tools/bin/controller-gen'
 chmod +x '_output/tools/bin/controller-gen';
 Installing yq into '_output/tools/bin/yq'
 mkdir -p '_output/tools/bin/'
