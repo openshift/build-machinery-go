@@ -28,4 +28,4 @@ verify-govet:
 
 verify-golint:
 	$(GOLINT) $(GO_PACKAGES)
-.PHONY: verify-govet
+.PHONY: verify-golint
