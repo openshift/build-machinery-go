@@ -19,7 +19,7 @@ ifeq "" "$(IMAGEBUILDER)"
 	$(error imagebuilder not found! Get it with: `go get github.com/openshift/imagebuilder/cmd/imagebuilder@v$(IMAGEBUILDER_VERSION)`)
 else
 	$(info Using existing imagebuilder from $(IMAGEBUILDER))
-	@[[ $(_imagebuilder_installed_version) == $(IMAGEBUILDER_VERSION) ]] || \
+	@[[ "$(_imagebuilder_installed_version)" == $(IMAGEBUILDER_VERSION) ]] || \
 	echo "Warning: Installed imagebuilder version $(_imagebuilder_installed_version) does not match expected version $(IMAGEBUILDER_VERSION)."
 endif
 .PHONY: ensure-imagebuilder
