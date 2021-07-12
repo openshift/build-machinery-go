@@ -5,7 +5,7 @@ include $(addprefix $(dir $(lastword $(MAKEFILE_LIST))), \
 )
 
 KUSTOMIZE_VERSION ?= 4.1.3
-KUSTOMIZE ?= $(PERMANENT_TMP_GOPATH)/bin/kustomize
+KUSTOMIZE ?= $(PERMANENT_TMP_GOPATH)/bin/kustomize-$(KUSTOMIZE_VERSION)
 kustomize_dir := $(dir $(KUSTOMIZE))
 
 ensure-kustomize:
