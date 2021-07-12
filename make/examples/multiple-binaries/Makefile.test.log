@@ -17,11 +17,11 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen-v0.6.0'
+rm -f _output/tools/bin/controller-gen*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yq-2.4.0'
+rm -f _output/tools/bin/yq*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yaml-patch-v0.0.10'
+rm -f _output/tools/bin/yaml-patch*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
@@ -31,11 +31,11 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen-v0.6.0'
+rm -f _output/tools/bin/controller-gen*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yq-2.4.0'
+rm -f _output/tools/bin/yq*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yaml-patch-v0.0.10'
+rm -f _output/tools/bin/yaml-patch*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
@@ -59,11 +59,11 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen-v0.6.0'
+rm -f _output/tools/bin/controller-gen*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yq-2.4.0'
+rm -f _output/tools/bin/yq*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yaml-patch-v0.0.10'
+rm -f _output/tools/bin/yaml-patch*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
@@ -72,11 +72,11 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen-v0.6.0'
+rm -f _output/tools/bin/controller-gen*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yq-2.4.0'
+rm -f _output/tools/bin/yq*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yaml-patch-v0.0.10'
+rm -f _output/tools/bin/yaml-patch*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
@@ -89,11 +89,11 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen-v0.6.0'
+rm -f _output/tools/bin/controller-gen*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yq-2.4.0'
+rm -f _output/tools/bin/yq*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yaml-patch-v0.0.10'
+rm -f _output/tools/bin/yaml-patch*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
@@ -102,11 +102,11 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen-v0.6.0'
+rm -f _output/tools/bin/controller-gen*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yq-2.4.0'
+rm -f _output/tools/bin/yq*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yaml-patch-v0.0.10'
+rm -f _output/tools/bin/yaml-patch*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
@@ -188,11 +188,11 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen-v0.6.0'
+rm -f _output/tools/bin/controller-gen*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yq-2.4.0'
+rm -f _output/tools/bin/yq*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yaml-patch-v0.0.10'
+rm -f _output/tools/bin/yaml-patch*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
@@ -201,11 +201,11 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen-v0.6.0'
+rm -f _output/tools/bin/controller-gen*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yq-2.4.0'
+rm -f _output/tools/bin/yq*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yaml-patch-v0.0.10'
+rm -f _output/tools/bin/yaml-patch*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
@@ -376,11 +376,11 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen-v0.6.0'
+rm -f _output/tools/bin/controller-gen*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yq-2.4.0'
+rm -f _output/tools/bin/yq*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yaml-patch-v0.0.10'
+rm -f _output/tools/bin/yaml-patch*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
@@ -389,11 +389,11 @@ make clean
 rm -f oc openshift
 rm -f -r '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/rpms' '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/_output/srpms'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
-rm -f '_output/tools/bin/controller-gen-v0.6.0'
+rm -f _output/tools/bin/controller-gen*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yq-2.4.0'
+rm -f _output/tools/bin/yq*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
-rm -f '_output/tools/bin/yaml-patch-v0.0.10'
+rm -f _output/tools/bin/yaml-patch*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi

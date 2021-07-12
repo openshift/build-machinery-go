@@ -23,7 +23,7 @@ endif
 .PHONY: ensure-yaml-patch
 
 clean-yaml-patch:
-	$(RM) '$(YAML_PATCH)'
+	$(RM) $(yaml_patch_dir)yaml-patch*
 	if [ -d '$(yaml_patch_dir)' ]; then rmdir --ignore-fail-on-non-empty -p '$(yaml_patch_dir)'; fi
 .PHONY: clean-yaml-patch
 
