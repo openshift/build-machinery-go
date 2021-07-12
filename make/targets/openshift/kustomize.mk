@@ -20,7 +20,7 @@ endif
 .PHONY: ensure-kustomize
 
 clean-kustomize:
-	$(RM) '$(KUSTOMIZE)'
+	$(RM) $(kustomize_dir)kustomize*
 	if [ -d '$(kustomize_dir)' ]; then rmdir --ignore-fail-on-non-empty -p '$(kustomize_dir)'; fi
 .PHONY: clean-kustomize
 

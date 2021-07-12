@@ -37,7 +37,7 @@ endif
 .PHONY: ensure-controller-gen
 
 clean-controller-gen:
-	$(RM) '$(CONTROLLER_GEN)'
+	$(RM) $(controller_gen_dir)controller-gen*
 	if [ -d '$(controller_gen_dir)' ]; then rmdir --ignore-fail-on-non-empty -p '$(controller_gen_dir)'; fi
 .PHONY: clean-controller-gen
 

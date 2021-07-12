@@ -23,7 +23,7 @@ endif
 .PHONY: ensure-yq
 
 clean-yq:
-	$(RM) '$(YQ)'
+	$(RM) $(yq_dir)yq*
 	if [ -d '$(yq_dir)' ]; then rmdir --ignore-fail-on-non-empty -p '$(yq_dir)'; fi
 .PHONY: clean-yq
 
