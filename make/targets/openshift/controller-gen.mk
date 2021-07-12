@@ -17,7 +17,7 @@ include $(addprefix $(dir $(lastword $(MAKEFILE_LIST))), \
 # e.g.
 # 	/home/efried/.gvm/pkgsets/go1.16/global/bin/darwin_amd64/controller-gen
 CONTROLLER_GEN_VERSION ?=v0.6.0
-CONTROLLER_GEN ?=$(PERMANENT_TMP_GOPATH)/bin/controller-gen
+CONTROLLER_GEN ?=$(PERMANENT_TMP_GOPATH)/bin/controller-gen-$(CONTROLLER_GEN_VERSION)
 ifneq "" "$(wildcard $(CONTROLLER_GEN))"
 _controller_gen_installed_version = $(shell $(CONTROLLER_GEN) --version | awk '{print $$2}')
 endif
