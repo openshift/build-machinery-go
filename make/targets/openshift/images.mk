@@ -4,6 +4,8 @@
 IMAGE_BUILD_DEFAULT_FLAGS ?=--allow-pull
 IMAGE_BUILD_EXTRA_FLAGS ?=
 
+include $(addprefix $(dir $(lastword $(MAKEFILE_LIST))), imagebuilder.mk)
+
 # $1 - target name
 # $2 - image ref
 # $3 - Dockerfile path
