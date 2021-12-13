@@ -14,7 +14,7 @@ define patch-manifest-yq
 
 endef
 
-# Apply yaml-patch using krishicks/yaml-patch
+# Apply yaml-patch using pivotal-cf/yaml-patch
 # $1 - patch file
 # $2 - manifest file
 # $3 - output file
