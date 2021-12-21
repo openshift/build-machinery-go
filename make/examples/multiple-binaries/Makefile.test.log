@@ -121,10 +121,10 @@ Installing yq into '_output/tools/bin/yq-2.4.0'
 mkdir -p '_output/tools/bin/'
 curl -s -f -L https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64 -o '_output/tools/bin/yq-2.4.0'
 chmod +x '_output/tools/bin/yq-2.4.0';
-Installing yaml-patch into '_output/tools/bin/yaml-patch-v0.0.10'
+Installing yaml-patch into '_output/tools/bin/yaml-patch-v0.0.11'
 mkdir -p '_output/tools/bin/'
-curl -s -f -L https://github.com/krishicks/yaml-patch/releases/download/v0.0.10/yaml_patch_linux -o '_output/tools/bin/yaml-patch-v0.0.10'
-chmod +x '_output/tools/bin/yaml-patch-v0.0.10';
+curl -s -f -L https://github.com/pivotal-cf/yaml-patch/releases/download/v0.0.11/yaml_patch_linux -o '_output/tools/bin/yaml-patch-v0.0.11'
+chmod +x '_output/tools/bin/yaml-patch-v0.0.11';
 --- ./manifests/operator.openshift.io_myotheroperatorresources.crd.yaml
 @@ -9,6 +9,40 @@ spec:
      kind: MyOtherOperatorResource
@@ -171,16 +171,16 @@ make[2]: *** [verify-codegen-crds-manifests] Error 1
 make update-codegen-crds
 Using existing controller-gen from "_output/tools/bin/controller-gen-v0.6.0"
 Using existing yq from "_output/tools/bin/yq-2.4.0"
-Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.10"
+Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.11"
 '_output/tools/bin/controller-gen-v0.6.0' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" output:dir="./manifests"
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
-_output/tools/bin/yaml-patch-v0.0.10 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
+_output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
 mv './manifests/operator.openshift.io_myv1resources.crd.yaml.patched' './manifests/operator.openshift.io_myv1resources.crd.yaml'
 make verify-codegen-crds
 Using existing controller-gen from "_output/tools/bin/controller-gen-v0.6.0"
 Using existing yq from "_output/tools/bin/yq-2.4.0"
-Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.10"
+Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.11"
 cp -r ./testing/manifests/initial/*.crd.yaml{-merge-patch,-patch} ./manifests/
 ! diff -Naup ./testing/manifests/initial/ ./manifests/ 2>/dev/null 1>&2
 diff -Naup ./testing/manifests/updated/ ./manifests/
@@ -217,10 +217,10 @@ Installing yq into '_output/tools/bin/yq-2.4.0'
 mkdir -p '_output/tools/bin/'
 curl -s -f -L https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64 -o '_output/tools/bin/yq-2.4.0'
 chmod +x '_output/tools/bin/yq-2.4.0';
-Installing yaml-patch into '_output/tools/bin/yaml-patch-v0.0.10'
+Installing yaml-patch into '_output/tools/bin/yaml-patch-v0.0.11'
 mkdir -p '_output/tools/bin/'
-curl -s -f -L https://github.com/krishicks/yaml-patch/releases/download/v0.0.10/yaml_patch_linux -o '_output/tools/bin/yaml-patch-v0.0.10'
-chmod +x '_output/tools/bin/yaml-patch-v0.0.10';
+curl -s -f -L https://github.com/pivotal-cf/yaml-patch/releases/download/v0.0.11/yaml_patch_linux -o '_output/tools/bin/yaml-patch-v0.0.11'
+chmod +x '_output/tools/bin/yaml-patch-v0.0.11';
 --- ./profile-manifests-1/operator.deployment-profile1.yaml	1970-01-01 00:00:00.000000000 +0000
 @@ -0,0 +1,45 @@
 +# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***
@@ -360,13 +360,13 @@ chmod +x '_output/tools/bin/yaml-patch-v0.0.10';
 make[2]: *** [verify-profile-manifests-manifests-1] Error 1
 make update-profile-manifests
 Using existing yq from "_output/tools/bin/yq-2.4.0"
-Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.10"
-( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; _output/tools/bin/yaml-patch-v0.0.10 -o './profile-patches-1/profile1/operator.deployment.yaml-patch' < '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment.yaml' ) > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile1.yaml'
-( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; _output/tools/bin/yaml-patch-v0.0.10 -o './profile-patches-1/profile2/operator.deployment.yaml-patch' < '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment.yaml' ) > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile2.yaml'
+Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.11"
+( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; _output/tools/bin/yaml-patch-v0.0.11 -o './profile-patches-1/profile1/operator.deployment.yaml-patch' < '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment.yaml' ) > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile1.yaml'
+( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; _output/tools/bin/yaml-patch-v0.0.11 -o './profile-patches-1/profile2/operator.deployment.yaml-patch' < '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment.yaml' ) > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.deployment-profile2.yaml'
 ( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; _output/tools/bin/yq-2.4.0 m -x '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service.yaml' './profile-patches-1/profile1/operator.service.yaml-merge-patch' ) > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service-profile1.yaml'
 ( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; _output/tools/bin/yq-2.4.0 m -x '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service.yaml' './profile-patches-1/profile2/operator.service.yaml-merge-patch' ) > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-1/operator.service-profile2.yaml'
-( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; _output/tools/bin/yaml-patch-v0.0.10 -o './profile-patches-2/profile-a/operator.deployment.yaml-patch' < '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment.yaml' ) > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-a.yaml'
-( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; _output/tools/bin/yaml-patch-v0.0.10 -o './profile-patches-2/profile-b/operator.deployment.yaml-patch' < '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment.yaml' ) > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-b.yaml'
+( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; _output/tools/bin/yaml-patch-v0.0.11 -o './profile-patches-2/profile-a/operator.deployment.yaml-patch' < '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment.yaml' ) > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-a.yaml'
+( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; _output/tools/bin/yaml-patch-v0.0.11 -o './profile-patches-2/profile-b/operator.deployment.yaml-patch' < '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment.yaml' ) > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.deployment-profile-b.yaml'
 ( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; _output/tools/bin/yq-2.4.0 m -x '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service.yaml' './profile-patches-2/profile-a/operator.service.yaml-merge-patch' ) > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service-profile-a.yaml'
 ( echo '# *** AUTOMATICALLY GENERATED FILE - DO NOT EDIT ***'; _output/tools/bin/yq-2.4.0 m -x '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service.yaml' './profile-patches-2/profile-b/operator.service.yaml-merge-patch' ) > '/github.com/openshift/build-machinery-go/make/examples/multiple-binaries/profile-manifests-2/operator.service-profile-b.yaml'
 ! diff -Naup ./testing/profile-manifests/initial/ ./profile-manifests-1/ &> /dev/null
