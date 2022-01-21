@@ -113,10 +113,10 @@ if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 cp -r ./testing/manifests/initial/* ./manifests/
 diff -Naup ./testing/manifests/initial/ ./manifests/
 ! make verify-codegen-crds
-Installing controller-gen into '_output/tools/bin/controller-gen-v0.6.0'
+Installing controller-gen into '_output/tools/bin/controller-gen-v0.7.0'
 mkdir -p '_output/tools/bin/'
-curl -s -f -L https://github.com/openshift/kubernetes-sigs-controller-tools/releases/download/v0.6.0/controller-gen-linux-amd64 -o '_output/tools/bin/controller-gen-v0.6.0'
-chmod +x '_output/tools/bin/controller-gen-v0.6.0';
+curl -s -f -L https://github.com/openshift/kubernetes-sigs-controller-tools/releases/download/v0.7.0/controller-gen-linux-amd64 -o '_output/tools/bin/controller-gen-v0.7.0'
+chmod +x '_output/tools/bin/controller-gen-v0.7.0';
 Installing yq into '_output/tools/bin/yq-2.4.0'
 mkdir -p '_output/tools/bin/'
 curl -s -f -L https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64 -o '_output/tools/bin/yq-2.4.0'
@@ -126,59 +126,70 @@ mkdir -p '_output/tools/bin/'
 curl -s -f -L https://github.com/pivotal-cf/yaml-patch/releases/download/v0.0.11/yaml_patch_linux -o '_output/tools/bin/yaml-patch-v0.0.11'
 chmod +x '_output/tools/bin/yaml-patch-v0.0.11';
 --- ./manifests/operator.openshift.io_myotheroperatorresources.crd.yaml
-@@ -9,6 +9,40 @@ spec:
+@@ -9,9 +9,51 @@ spec:
      kind: MyOtherOperatorResource
      plural: myotheroperatorresources
    scope: ""
 +  validation:
 +    openAPIV3Schema:
-+      description: MyOtherOperatorResource is an example operator configuration type
 +      properties:
-+        apiVersion:
-+          description: 'APIVersion defines the versioned schema of this representation
-+            of an object. Servers should convert recognized schemas to the latest
-+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
-+          type: string
-+        kind:
-+          description: 'Kind is a string value representing the REST resource this
-+            object represents. Servers may infer this from the endpoint the client
-+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
-+          type: string
-+        metadata:
-+          type: object
 +        spec:
 +          properties:
-+            deprecatedField:
-+              type: string
-+            name:
-+              type: string
 +            overwritePattern:
 +              pattern: ^(Managed|Unmanaged)$
-+              type: string
-+          required:
-+          - deprecatedField
-+          - name
-+          - overwritePattern
-+          type: object
-+      required:
-+      - metadata
-+      - spec
-+      type: object
    version: v1beta1
    versions:
    - name: v1beta1
++    schema:
++      openAPIV3Schema:
++        description: MyOtherOperatorResource is an example operator configuration
++          type
++        properties:
++          apiVersion:
++            description: 'APIVersion defines the versioned schema of this representation
++              of an object. Servers should convert recognized schemas to the latest
++              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
++            type: string
++          kind:
++            description: 'Kind is a string value representing the REST resource this
++              object represents. Servers may infer this from the endpoint the client
++              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
++            type: string
++          metadata:
++            type: object
++          spec:
++            properties:
++              deprecatedField:
++                type: string
++              name:
++                type: string
++              overwritePattern:
++                pattern: ^(Managed|Unmanaged)$
++                type: string
++            required:
++            - deprecatedField
++            - name
++            - overwritePattern
++            type: object
++        required:
++        - metadata
++        - spec
++        type: object
+     served: true
+     storage: true
+ status:
 make[2]: *** [verify-codegen-crds-manifests] Error 1
 make update-codegen-crds
-Using existing controller-gen from "_output/tools/bin/controller-gen-v0.6.0"
+Using existing controller-gen from "_output/tools/bin/controller-gen-v0.7.0"
 Using existing yq from "_output/tools/bin/yq-2.4.0"
 Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.11"
-'_output/tools/bin/controller-gen-v0.6.0' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" output:dir="./manifests"
+'_output/tools/bin/controller-gen-v0.7.0' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" output:dir="./manifests"
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
 mv './manifests/operator.openshift.io_myv1resources.crd.yaml.patched' './manifests/operator.openshift.io_myv1resources.crd.yaml'
 make verify-codegen-crds
-Using existing controller-gen from "_output/tools/bin/controller-gen-v0.6.0"
+Using existing controller-gen from "_output/tools/bin/controller-gen-v0.7.0"
 Using existing yq from "_output/tools/bin/yq-2.4.0"
 Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.11"
 cp -r ./testing/manifests/initial/*.crd.yaml{-merge-patch,-patch} ./manifests/
