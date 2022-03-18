@@ -1,5 +1,5 @@
 # library-go/build-machinery-go
-These are the building blocks for this and many of our other repositories to share code for Makefiles, helper scripts and other build related machinery.
+This repo has the building blocks for this and many of our other repositories to share code for Makefiles, helper scripts and other build related machinery.
 
 ## Makefiles
 `make/` directory contains several predefined makefiles `(*.mk)` to choose from and include one of them as a base in your final `Makefile`. These are the predefined flows providing you with e.g. `build`, `test` or `verify` targets. To start with it is recommended you base Makefile on the corresponding `*.example.mk` using copy&paste.
