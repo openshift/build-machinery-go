@@ -114,10 +114,10 @@ cp -r ./testing/manifests/initial/* ./manifests/
 git add --no-ignore-removal ./manifests/
 diff -Naup ./testing/manifests/initial/ ./manifests/
 ! make verify-codegen-crds
-Installing controller-gen into '_output/tools/bin/controller-gen-v0.7.0'
+Installing controller-gen into '_output/tools/bin/controller-gen-v0.9.2'
 mkdir -p '_output/tools/bin/'
-curl -s -f -L https://github.com/openshift/kubernetes-sigs-controller-tools/releases/download/v0.7.0/controller-gen-linux-amd64 -o '_output/tools/bin/controller-gen-v0.7.0'
-chmod +x '_output/tools/bin/controller-gen-v0.7.0';
+curl -s -f -L https://github.com/openshift/kubernetes-sigs-controller-tools/releases/download/v0.9.2/controller-gen-linux-amd64 -o '_output/tools/bin/controller-gen-v0.9.2'
+chmod +x '_output/tools/bin/controller-gen-v0.9.2';
 Installing yq into '_output/tools/bin/yq-2.4.0'
 mkdir -p '_output/tools/bin/'
 curl -s -f -L https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64 -o '_output/tools/bin/yq-2.4.0'
@@ -126,7 +126,7 @@ Installing yaml-patch into '_output/tools/bin/yaml-patch-v0.0.11'
 mkdir -p '_output/tools/bin/'
 curl -s -f -L https://github.com/pivotal-cf/yaml-patch/releases/download/v0.0.11/yaml_patch_linux -o '_output/tools/bin/yaml-patch-v0.0.11'
 chmod +x '_output/tools/bin/yaml-patch-v0.0.11';
-'_output/tools/bin/controller-gen-v0.7.0' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" 'output:dir="./manifests"'
+'_output/tools/bin/controller-gen-v0.9.2' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" 'output:dir="./manifests"'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
@@ -249,20 +249,22 @@ index 59fd04a..5af3182 100644
      subresources:
 make[2]: *** [verify-codegen-crds-manifests] Error 1
 make update-codegen-crds
-Using existing controller-gen from "_output/tools/bin/controller-gen-v0.7.0"
+Using existing controller-gen from "_output/tools/bin/controller-gen-v0.9.2"
+Warning: Installed controller-gen version (devel) does not match expected version v0.9.2.
 Using existing yq from "_output/tools/bin/yq-2.4.0"
 Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.11"
-'_output/tools/bin/controller-gen-v0.7.0' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" 'output:dir="./manifests"'
+'_output/tools/bin/controller-gen-v0.9.2' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" 'output:dir="./manifests"'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
 mv './manifests/operator.openshift.io_myv1resources.crd.yaml.patched' './manifests/operator.openshift.io_myv1resources.crd.yaml'
 git add --no-ignore-removal ./manifests/
 make verify-codegen-crds
-Using existing controller-gen from "_output/tools/bin/controller-gen-v0.7.0"
+Using existing controller-gen from "_output/tools/bin/controller-gen-v0.9.2"
+Warning: Installed controller-gen version (devel) does not match expected version v0.9.2.
 Using existing yq from "_output/tools/bin/yq-2.4.0"
 Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.11"
-'_output/tools/bin/controller-gen-v0.7.0' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" 'output:dir="./manifests"'
+'_output/tools/bin/controller-gen-v0.9.2' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" 'output:dir="./manifests"'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
