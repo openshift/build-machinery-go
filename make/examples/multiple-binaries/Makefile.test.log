@@ -183,7 +183,7 @@ make update-codegen-crds
 Using existing controller-gen from "_output/tools/bin/controller-gen-v0.7.0"
 Using existing yq from "_output/tools/bin/yq-2.4.0"
 Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.11"
-'_output/tools/bin/controller-gen-v0.7.0' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" output:dir="./manifests"
+'_output/tools/bin/controller-gen-v0.7.0' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" 'output:dir="./manifests"'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
