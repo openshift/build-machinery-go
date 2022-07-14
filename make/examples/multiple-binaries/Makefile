@@ -19,8 +19,7 @@ RPM_EXTRAFLAGS :=--quiet --define 'version 2.42.0' --define 'dist .el7' --define
 # $1 - target name
 # $2 - apis
 # $3 - manifests
-# $4 - output
-$(call add-crd-gen,manifests,$(CRD_APIS),./manifests,./manifests)
+$(call add-crd-gen,manifests,$(CRD_APIS),./manifests)
 
 # $1 - target name
 # $2 - profile patches dir

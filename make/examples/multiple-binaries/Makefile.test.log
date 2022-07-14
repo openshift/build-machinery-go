@@ -111,6 +111,7 @@ if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_outpu
 rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
 cp -r ./testing/manifests/initial/* ./manifests/
+git add --no-ignore-removal ./manifests/
 diff -Naup ./testing/manifests/initial/ ./manifests/
 ! make verify-codegen-crds
 Installing controller-gen into '_output/tools/bin/controller-gen-v0.7.0'
@@ -125,7 +126,32 @@ Installing yaml-patch into '_output/tools/bin/yaml-patch-v0.0.11'
 mkdir -p '_output/tools/bin/'
 curl -s -f -L https://github.com/pivotal-cf/yaml-patch/releases/download/v0.0.11/yaml_patch_linux -o '_output/tools/bin/yaml-patch-v0.0.11'
 chmod +x '_output/tools/bin/yaml-patch-v0.0.11';
---- ./manifests/operator.openshift.io_myotheroperatorresources.crd.yaml
+'_output/tools/bin/controller-gen-v0.7.0' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" 'output:dir="./manifests"'
+_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml-merge-patch'
+_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
+_output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
+mv './manifests/operator.openshift.io_myv1resources.crd.yaml.patched' './manifests/operator.openshift.io_myv1resources.crd.yaml'
+git diff --exit-code
+diff --git a/make/examples/multiple-binaries/manifests/operator.openshift.io_myoperatorresources.crd.yaml b/make/examples/multiple-binaries/manifests/operator.openshift.io_myoperatorresources.crd.yaml
+index 8c33cbb..77e7f4d 100644
+--- a/make/examples/multiple-binaries/manifests/operator.openshift.io_myoperatorresources.crd.yaml
++++ b/make/examples/multiple-binaries/manifests/operator.openshift.io_myoperatorresources.crd.yaml
+@@ -9,6 +9,11 @@ spec:
+     kind: MyOperatorResource
+     plural: myoperatorresources
+   scope: ""
++  validation:
++    openAPIV3Schema:
++      properties:
++        apiVersion:
++          pattern: ^(test|TEST)$
+ status:
+   acceptedNames:
+     kind: ""
+diff --git a/make/examples/multiple-binaries/manifests/operator.openshift.io_myotheroperatorresources.crd.yaml b/make/examples/multiple-binaries/manifests/operator.openshift.io_myotheroperatorresources.crd.yaml
+index d21f2e0..b5d2b6c 100644
+--- a/make/examples/multiple-binaries/manifests/operator.openshift.io_myotheroperatorresources.crd.yaml
++++ b/make/examples/multiple-binaries/manifests/operator.openshift.io_myotheroperatorresources.crd.yaml
 @@ -9,9 +9,51 @@ spec:
      kind: MyOtherOperatorResource
      plural: myotheroperatorresources
@@ -178,6 +204,49 @@ chmod +x '_output/tools/bin/yaml-patch-v0.0.11';
      served: true
      storage: true
  status:
+diff --git a/make/examples/multiple-binaries/manifests/operator.openshift.io_myv1resources.crd.yaml b/make/examples/multiple-binaries/manifests/operator.openshift.io_myv1resources.crd.yaml
+index 59fd04a..5af3182 100644
+--- a/make/examples/multiple-binaries/manifests/operator.openshift.io_myv1resources.crd.yaml
++++ b/make/examples/multiple-binaries/manifests/operator.openshift.io_myv1resources.crd.yaml
+@@ -12,9 +12,37 @@ spec:
+   - name: v1
+     schema:
+       openAPIV3Schema:
++        description: MyV1Resource is an example operator configuration type
+         properties:
+           apiVersion:
+-            pattern: ^(test|TEST)$
++            description: 'APIVersion defines the versioned schema of this representation
++              of an object. Servers should convert recognized schemas to the latest
++              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
++            type: string
++          kind:
++            description: 'Kind is a string value representing the REST resource this
++              object represents. Servers may infer this from the endpoint the client
++              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
++            type: string
++          metadata:
++            properties:
++              name:
++                enum:
++                - a
++                - b
++                type: string
++            type: object
++          spec:
++            properties:
++              name:
++                type: string
++            required:
++            - name
++            type: object
++        required:
++        - metadata
++        - spec
++        type: object
+     served: true
+     storage: true
+     subresources:
 make[2]: *** [verify-codegen-crds-manifests] Error 1
 make update-codegen-crds
 Using existing controller-gen from "_output/tools/bin/controller-gen-v0.7.0"
@@ -188,10 +257,17 @@ _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotherope
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
 _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
 mv './manifests/operator.openshift.io_myv1resources.crd.yaml.patched' './manifests/operator.openshift.io_myv1resources.crd.yaml'
+git add --no-ignore-removal ./manifests/
 make verify-codegen-crds
 Using existing controller-gen from "_output/tools/bin/controller-gen-v0.7.0"
 Using existing yq from "_output/tools/bin/yq-2.4.0"
 Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.11"
+'_output/tools/bin/controller-gen-v0.7.0' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" 'output:dir="./manifests"'
+_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml-merge-patch'
+_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
+_output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
+mv './manifests/operator.openshift.io_myv1resources.crd.yaml.patched' './manifests/operator.openshift.io_myv1resources.crd.yaml'
+git diff --exit-code
 cp -r ./testing/manifests/initial/*.crd.yaml{-merge-patch,-patch} ./manifests/
 ! diff -Naup ./testing/manifests/initial/ ./manifests/ 2>/dev/null 1>&2
 diff -Naup ./testing/manifests/updated/ ./manifests/
@@ -220,6 +296,7 @@ rm -f _output/tools/bin/yaml-patch*
 if [ -d '_output/tools/bin/' ]; then rmdir --ignore-fail-on-non-empty -p '_output/tools/bin/'; fi
 rm -f -r '_output/bin'
 if [ -d '_output' ]; then rmdir --ignore-fail-on-non-empty '_output'; fi
+git add --no-ignore-removal ./manifests/
 rm -f ./profile-manifests-1/* ./profile-manifests-2/*
 cp ./testing/profile-manifests/initial/* ./profile-manifests-1/
 cp ./testing/profile-manifests/initial/* ./profile-manifests-2/
