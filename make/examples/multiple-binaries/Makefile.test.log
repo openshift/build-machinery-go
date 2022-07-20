@@ -128,23 +128,47 @@ curl -s -f -L https://github.com/pivotal-cf/yaml-patch/releases/download/v0.0.11
 chmod +x '_output/tools/bin/yaml-patch-v0.0.11';
 '_output/tools/bin/controller-gen-v0.9.2' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" 'output:dir="./manifests"'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml-merge-patch'
-_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
+_output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myoperatorresources.crd.yaml-patch' < './manifests/operator.openshift.io_myoperatorresources.crd.yaml' > './manifests/operator.openshift.io_myoperatorresources.crd.yaml.patched'
+mv './manifests/operator.openshift.io_myoperatorresources.crd.yaml.patched' './manifests/operator.openshift.io_myoperatorresources.crd.yaml'
 _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
 mv './manifests/operator.openshift.io_myv1resources.crd.yaml.patched' './manifests/operator.openshift.io_myv1resources.crd.yaml'
 git diff --exit-code
 diff --git a/make/examples/multiple-binaries/manifests/operator.openshift.io_myoperatorresources.crd.yaml b/make/examples/multiple-binaries/manifests/operator.openshift.io_myoperatorresources.crd.yaml
-index 8c33cbb..77e7f4d 100644
+index 2b1b8ec..29d8d14 100644
 --- a/make/examples/multiple-binaries/manifests/operator.openshift.io_myoperatorresources.crd.yaml
 +++ b/make/examples/multiple-binaries/manifests/operator.openshift.io_myoperatorresources.crd.yaml
-@@ -9,6 +9,11 @@ spec:
-     kind: MyOperatorResource
-     plural: myoperatorresources
+@@ -11,6 +11,34 @@ spec:
    scope: ""
-+  validation:
-+    openAPIV3Schema:
-+      properties:
-+        apiVersion:
-+          pattern: ^(test|TEST)$
+   versions:
+   - name: v1
++    schema:
++      openAPIV3Schema:
++        description: MyOperatorResource is an example operator configuration type
++        properties:
++          apiVersion:
++            description: 'APIVersion defines the versioned schema of this representation
++              of an object. Servers should convert recognized schemas to the latest
++              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
++            pattern: ^(test|TEST)$
++            type: string
++          kind:
++            description: 'Kind is a string value representing the REST resource this
++              object represents. Servers may infer this from the endpoint the client
++              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
++            type: string
++          metadata:
++            type: object
++          spec:
++            properties:
++              name:
++                type: string
++            required:
++            - name
++            type: object
++        required:
++        - metadata
++        - spec
++        type: object
  status:
    acceptedNames:
      kind: ""
@@ -255,7 +279,8 @@ Using existing yq from "_output/tools/bin/yq-2.4.0"
 Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.11"
 '_output/tools/bin/controller-gen-v0.9.2' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" 'output:dir="./manifests"'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml-merge-patch'
-_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
+_output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myoperatorresources.crd.yaml-patch' < './manifests/operator.openshift.io_myoperatorresources.crd.yaml' > './manifests/operator.openshift.io_myoperatorresources.crd.yaml.patched'
+mv './manifests/operator.openshift.io_myoperatorresources.crd.yaml.patched' './manifests/operator.openshift.io_myoperatorresources.crd.yaml'
 _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
 mv './manifests/operator.openshift.io_myv1resources.crd.yaml.patched' './manifests/operator.openshift.io_myv1resources.crd.yaml'
 git add --no-ignore-removal ./manifests/
@@ -266,7 +291,8 @@ Using existing yq from "_output/tools/bin/yq-2.4.0"
 Using existing yaml-patch from "_output/tools/bin/yaml-patch-v0.0.11"
 '_output/tools/bin/controller-gen-v0.9.2' schemapatch:manifests="./manifests" paths="./pkg/apis/v1;./pkg/apis/v1beta1" 'output:dir="./manifests"'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml-merge-patch'
-_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml-merge-patch'
+_output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myoperatorresources.crd.yaml-patch' < './manifests/operator.openshift.io_myoperatorresources.crd.yaml' > './manifests/operator.openshift.io_myoperatorresources.crd.yaml.patched'
+mv './manifests/operator.openshift.io_myoperatorresources.crd.yaml.patched' './manifests/operator.openshift.io_myoperatorresources.crd.yaml'
 _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
 mv './manifests/operator.openshift.io_myv1resources.crd.yaml.patched' './manifests/operator.openshift.io_myv1resources.crd.yaml'
 git diff --exit-code
