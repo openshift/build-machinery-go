@@ -6,7 +6,7 @@ include $(addprefix $(dir $(lastword $(MAKEFILE_LIST))), \
 	../../lib/tmp.mk \
 )
 
-YQ_VERSION ?=2.4.0
+YQ_VERSION ?=4.9.6
 YQ ?=$(PERMANENT_TMP_GOPATH)/bin/yq-$(YQ_VERSION)
 yq_dir :=$(dir $(YQ))
 
