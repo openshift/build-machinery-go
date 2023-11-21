@@ -94,3 +94,43 @@ func run(args ...string) (string, string, error) {
 	err := cmd.Run()
 	return stdout.String(), stderr.String(), err
 }
+
+// DetermineMergeBase will determine the merge-base between the upstream in configuration
+// and end, if we can. This processing is best-effort; if an expected merge-base is present
+// in the configuration, we validate that it matches.
+func DetermineMergeBase(cfg *Config, fetchMode FetchMode, end string) (string, error) {
+	if cfg == nil || cfg.UpstreamOrg == "" || cfg.UpstreamRepo == "" || cfg.UpstreamBranch == "" {
+		return "", nil
+	}
+
+	var upstreamRemote string
+	switch fetchMode {
+	case SSH:
+		upstreamRemote = "git@github.com:" + cfg.UpstreamOrg + "/" + cfg.UpstreamRepo + ".git"
+	case HTTPS:
+		upstreamRemote = "https://github.com/" + cfg.UpstreamOrg + "/" + cfg.UpstreamRepo + ".git"
+	default:
+		return "", fmt.Errorf("unexpected fetch mode %s", fetchMode)
+	}
+	{
+		stdout, stderr, err := run("git", "fetch", upstreamRemote, cfg.UpstreamBranch)
+		if err != nil {
+			return "", fmt.Errorf("failed to fetch upstream: %s, %s: %w", stdout, stderr, err)
+		}
+	}
+
+	var mergeBase string
+	{
+		stdout, stderr, err := run("git", "merge-base", end, "FETCH_HEAD")
+		if err != nil {
+			return "", fmt.Errorf("failed to fetch upstream: %s, %s: %w", stdout, stderr, err)
+		}
+		mergeBase = strings.TrimSpace(stdout)
+	}
+
+	if cfg.ExpectedMergeBase != "" && mergeBase != cfg.ExpectedMergeBase {
+		return mergeBase, fmt.Errorf("detected merge-base %q, expected %q", mergeBase, cfg.ExpectedMergeBase)
+	}
+
+	return mergeBase, nil
+}
