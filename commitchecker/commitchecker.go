@@ -33,6 +33,7 @@ func main() {
 	}
 	start := opts.Start
 	if mergeBase != "" {
+		_, _ = fmt.Fprintf(os.Stdout, "Determined merge-base with %s/%s@%s at %s\n", cfg.UpstreamOrg, cfg.UpstreamRepo, cfg.UpstreamBranch, mergeBase)
 		start = mergeBase
 	}
 
@@ -46,6 +47,7 @@ func main() {
 		os.Exit(1)
 	}
 
+	_, _ = fmt.Fprintf(os.Stdout, "Validating %d commits between %s...%s\n", len(commits), start, opts.End)
 	var errs []string
 	for _, validate := range commitchecker.AllCommitValidators {
 		for _, commit := range commits {
