@@ -6,9 +6,11 @@ import (
 	"os"
 
 	"github.com/openshift/build-machinery-go/commitchecker/commitchecker"
+	"github.com/openshift/build-machinery-go/commitchecker/pkg/version"
 )
 
 func main() {
+	_, _ = fmt.Fprintf(os.Stdout, "commitchecker verson %v\n", version.Get().String())
 	opts := commitchecker.DefaultOptions()
 	opts.Bind(flag.CommandLine)
 	flag.Parse()
