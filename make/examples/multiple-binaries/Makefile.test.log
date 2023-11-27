@@ -132,8 +132,8 @@ _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myope
 mv './manifests/operator.openshift.io_myoperatorresources.crd.yaml.patched' './manifests/operator.openshift.io_myoperatorresources.crd.yaml'
 _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
 mv './manifests/operator.openshift.io_myv1resources.crd.yaml.patched' './manifests/operator.openshift.io_myv1resources.crd.yaml'
-_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml'
+_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myv1resources.crd.yaml' './manifests/operator.openshift.io_myv1resources.crd.yaml'
 git diff --exit-code
 diff --git a/make/examples/multiple-binaries/manifests/operator.openshift.io_myoperatorresources.crd.yaml b/make/examples/multiple-binaries/manifests/operator.openshift.io_myoperatorresources.crd.yaml
@@ -286,8 +286,8 @@ _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myope
 mv './manifests/operator.openshift.io_myoperatorresources.crd.yaml.patched' './manifests/operator.openshift.io_myoperatorresources.crd.yaml'
 _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
 mv './manifests/operator.openshift.io_myv1resources.crd.yaml.patched' './manifests/operator.openshift.io_myv1resources.crd.yaml'
-_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml'
+_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myv1resources.crd.yaml' './manifests/operator.openshift.io_myv1resources.crd.yaml'
 git add --no-ignore-removal ./manifests/
 make verify-codegen-crds
@@ -301,8 +301,8 @@ _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myope
 mv './manifests/operator.openshift.io_myoperatorresources.crd.yaml.patched' './manifests/operator.openshift.io_myoperatorresources.crd.yaml'
 _output/tools/bin/yaml-patch-v0.0.11 -o './manifests/operator.openshift.io_myv1resources.crd.yaml-patch' < './manifests/operator.openshift.io_myv1resources.crd.yaml' > './manifests/operator.openshift.io_myv1resources.crd.yaml.patched'
 mv './manifests/operator.openshift.io_myv1resources.crd.yaml.patched' './manifests/operator.openshift.io_myv1resources.crd.yaml'
-_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myoperatorresources.crd.yaml' './manifests/operator.openshift.io_myoperatorresources.crd.yaml'
+_output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml' './manifests/operator.openshift.io_myotheroperatorresources.crd.yaml'
 _output/tools/bin/yq-2.4.0 m -i -x './manifests/operator.openshift.io_myv1resources.crd.yaml' './manifests/operator.openshift.io_myv1resources.crd.yaml'
 git diff --exit-code
 cp -r ./testing/manifests/initial/*.crd.yaml{-merge-patch,-patch} ./manifests/
