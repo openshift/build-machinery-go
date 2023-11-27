@@ -1,4 +1,4 @@
-package main
+package commitchecker
 
 import (
 	"bytes"
@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// allCommitValidators holds all registered checks.
-	allCommitValidators = []func(Commit) []string{
+	// AllCommitValidators holds all registered checks.
+	AllCommitValidators = []func(Commit) []string{
 		ValidateCommitAuthor,
 
 		// Local commit messages must be prefixed with UPSTREAM as per
