@@ -38,7 +38,7 @@ var ErrNotCommit = fmt.Errorf("one or both of the provided commits was not a val
 
 func CommitsBetween(a, b string) ([]Commit, error) {
 	var commits []Commit
-	stdout, stderr, err := run("git", "log", "--no-merges", "--oneline", fmt.Sprintf("%s..%s", a, b))
+	stdout, stderr, err := run("git", "log", "--no-merges", "--oneline", "--ancestry-path", fmt.Sprintf("%s..%s", a, b))
 	if err != nil {
 		if !IsCommit(a) || !IsCommit(b) {
 			return nil, ErrNotCommit
