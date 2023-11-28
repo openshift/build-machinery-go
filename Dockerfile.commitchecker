@@ -8,7 +8,6 @@ RUN make -C commitchecker
 
 FROM registry.ci.openshift.org/ocp/4.15:base
 COPY --from=builder /go/src/github.com/openshift/build-machinery-go/commitchecker/commitchecker /usr/bin/
-RUN dnf update -y && \
-    dnf install --setopt=tsflags=nodocs -y git && \
+RUN dnf install --setopt=tsflags=nodocs -y git && \
     dnf clean all && rm -rf /var/cache/yum/*
 ENTRYPOINT ["/usr/bin/commitchecker"]
