@@ -6,7 +6,7 @@ WORKDIR /go/src/github.com/openshift/build-machinery-go
 COPY . .
 RUN make -C commitchecker
 
-FROM registry.ci.openshift.org/ocp/4.17:base
+FROM registry.ci.openshift.org/ocp/4.17:base-rhel9
 COPY --from=builder /go/src/github.com/openshift/build-machinery-go/commitchecker/commitchecker /usr/bin/
 RUN dnf install --setopt=tsflags=nodocs -y git && \
     dnf clean all && rm -rf /var/cache/yum/*
