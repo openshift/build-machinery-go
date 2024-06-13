@@ -3,7 +3,7 @@
 # modifying the Go binaries breaks the DWARF debugging
 %global __os_install_post %{_rpmconfigdir}/brp-compress
 
-%global golang_version 1.12
+%global golang_version 1.22
 %global product_name OpenShift
 
 %{!?version: %global version 0.0.1}
