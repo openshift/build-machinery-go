@@ -10,7 +10,7 @@ include $(addprefix ../../, \
 CRD_APIS :=$(addprefix ./pkg/apis/,v1 v1beta1)
 
 # rpm wants build-id set
-GO_LD_EXTRAFLAGS +=-B 0x$$(head -c20 /dev/urandom|od -An -tx1|tr -d ' \n')
+GO_LD_EXTRAFLAGS +=-B gobuildid
 
 OUTPUT_DIR :=_output
 CROSS_BUILD_BINDIR :=$(OUTPUT_DIR)/bin
