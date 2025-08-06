@@ -41,10 +41,8 @@ base_images:
   commitchecker:
     name: commitchecker
     namespace: ci
-    tag: "4.14"  # use appropriate OCP branch
+    tag: "latest"
 ```
-
-Note that the `commitchecker` image is available only with tags `4.14` and newer.
 
 2. Add `verify-commits` presubmit CI job that clones your repository, applies the PR-under-test and runs `commitchecker` image with the git clone inside:
 
