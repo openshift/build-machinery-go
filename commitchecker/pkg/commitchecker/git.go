@@ -3,6 +3,7 @@ package commitchecker
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -87,6 +88,7 @@ func emailInCommit(sha string) (string, error) {
 
 func run(args ...string) (string, string, error) {
 	cmd := exec.Command(args[0], args[1:]...)
+	_, _ = fmt.Fprintf(os.Stdout, "running: %+v\n", cmd)
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 	cmd.Stdout = &stdout
@@ -121,10 +123,16 @@ func DetermineMergeBase(cfg *Config, fetchMode FetchMode, end string) (string, e
 
 	var mergeBase string
 	{
-		stdout, stderr, err := run("git", "merge-base", end, "FETCH_HEAD")
+		stdout, stderr, err := run("git", "rev-parse", end, "FETCH_HEAD")
+		if err != nil {
+			return "", fmt.Errorf("failed to rev-parse %s FETCH_HEAD: %s, %s: %w", end, stdout, stderr, err)
+		}
+		_, _ = fmt.Fprintf(os.Stdout, "output: %s\n", strings.ReplaceAll(strings.Trim(stdout, "\n"), "\n", "\n        "))
+		stdout, stderr, err = run("git", "merge-base", end, "FETCH_HEAD")
 		if err != nil {
 			return "", fmt.Errorf("failed to fetch upstream: %s, %s: %w", stdout, stderr, err)
 		}
+		_, _ = fmt.Fprintf(os.Stdout, "output: %s\n", strings.ReplaceAll(strings.Trim(stdout, "\n"), "\n", "\n        "))
 		mergeBase = strings.TrimSpace(stdout)
 	}
 
