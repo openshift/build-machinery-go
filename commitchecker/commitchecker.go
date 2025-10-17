@@ -12,6 +12,7 @@ import (
 func main() {
 	_, _ = fmt.Fprintf(os.Stdout, "commitchecker verson %v\n", version.Get().String())
 	opts := commitchecker.DefaultOptions()
+	_, _ = fmt.Fprintf(os.Stdout, "default options: %+v\n", opts)
 	opts.Bind(flag.CommandLine)
 	flag.Parse()
 
@@ -25,6 +26,9 @@ func main() {
 		_, _ = fmt.Fprintf(os.Stderr, "ERROR: couldn't load config: %v\n", err)
 		os.Exit(1)
 	}
+
+	_, _ = fmt.Fprintf(os.Stdout, "post-argument options: %+v\n", opts)
+	_, _ = fmt.Fprintf(os.Stdout, "config: %+v\n", *cfg)
 
 	mergeBase, err := commitchecker.DetermineMergeBase(cfg, commitchecker.FetchMode(opts.FetchMode), opts.End)
 	if err != nil {
@@ -49,8 +53,9 @@ func main() {
 
 	_, _ = fmt.Fprintf(os.Stdout, "Validating %d commits between %s...%s\n", len(commits), start, opts.End)
 	var errs []string
-	for _, validate := range commitchecker.AllCommitValidators {
-		for _, commit := range commits {
+	for _, commit := range commits {
+		_, _ = fmt.Fprintf(os.Stdout, "Validating commit %+v\n", commit)
+		for _, validate := range commitchecker.AllCommitValidators {
 			errs = append(errs, validate(commit)...)
 		}
 	}
