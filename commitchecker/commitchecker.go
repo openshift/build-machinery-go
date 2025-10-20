@@ -28,7 +28,7 @@ func main() {
 	}
 
 	_, _ = fmt.Fprintf(os.Stdout, "post-argument options: %+v\n", opts)
-	_, _ = fmt.Fprintf(os.Stdout, "config: %+v\n", *cfg)
+	_, _ = fmt.Fprintf(os.Stdout, "config: %+v\n", cfg)
 
 	mergeBase, err := commitchecker.DetermineMergeBase(cfg, commitchecker.FetchMode(opts.FetchMode), opts.End)
 	if err != nil {
