@@ -28,7 +28,11 @@ func main() {
 	}
 
 	_, _ = fmt.Fprintf(os.Stdout, "post-argument options: %+v\n", opts)
-	_, _ = fmt.Fprintf(os.Stdout, "config: %+v\n", cfg)
+	if cfg != nil {
+		_, _ = fmt.Fprintf(os.Stdout, "config: %+v\n", cfg)
+	} else {
+		_, _ = fmt.Fprintf(os.Stdout, "config: (no config file found)\n")
+	}
 
 	mergeBase, err := commitchecker.DetermineMergeBase(cfg, commitchecker.FetchMode(opts.FetchMode), opts.End)
 	if err != nil {
@@ -36,7 +40,7 @@ func main() {
 		os.Exit(1)
 	}
 	start := opts.Start
-	if mergeBase != "" {
+	if mergeBase != "" && cfg != nil {
 		_, _ = fmt.Fprintf(os.Stdout, "Determined merge-base with %s/%s@%s at %s\n", cfg.UpstreamOrg, cfg.UpstreamRepo, cfg.UpstreamBranch, mergeBase)
 		start = mergeBase
 	}
