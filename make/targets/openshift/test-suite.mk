@@ -1,6 +1,6 @@
 # OpenShift Test Suite targets
 #
-# This file provides common targets for running OpenShift test suites
+# This file provides common targets for building and managing OpenShift test suites
 # across all operator repos that use the openshift-tests-extension framework.
 #
 # Usage in main Makefile:
@@ -16,18 +16,12 @@
 #   TESTS_DIR - Directory containing test code (e.g., ./cmd/my-operator-tests)
 
 # -------------------------------------------------------------------
-# Run test suite
+# Build and move test binary to correct location
 # -------------------------------------------------------------------
-.PHONY: run-suite
-run-suite:
-	@if [ -z "$(SUITE)" ]; then \
-		echo "Error: SUITE variable is required. Usage: make run-suite SUITE=<suite-name> [JUNIT_DIR=<dir>]"; \
-		exit 1; \
+.PHONY: tests-ext-build
+tests-ext-build: build
+	@mkdir -p $(TESTS_DIR)
+	@if [ -f $(shell basename $(TESTS_DIR)) ] && [ ! -f $(TESTS_DIR)/$(TESTS_BINARY) ]; then \
+		mv $(shell basename $(TESTS_DIR)) $(TESTS_DIR)/$(TESTS_BINARY); \
 	fi
-	@JUNIT_ARG=""; \
-	if [ -n "$(JUNIT_DIR)" ]; then \
-		mkdir -p "$(JUNIT_DIR)"; \
-		JUNIT_ARG="--junit-path=$(JUNIT_DIR)/junit.xml"; \
-	fi; \
-	"$(TESTS_DIR)/$(TESTS_BINARY)" run-suite $(SUITE) $$JUNIT_ARG
 
