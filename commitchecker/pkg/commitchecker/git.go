@@ -37,9 +37,24 @@ func IsCommit(a string) bool {
 
 var ErrNotCommit = fmt.Errorf("one or both of the provided commits was not a valid commit")
 
-func CommitsBetween(a, b string) ([]Commit, error) {
+// CheckMode controls whether git log uses --ancestry-path.
+type CheckMode string
+
+const (
+	// AncestryPath uses --ancestry-path, walking the linear carry path through the downstream repo.
+	AncestryPath CheckMode = "with --ancestry-path"
+	// NoAncestryPath omits --ancestry-path, finding all commits reachable from end but not start.
+	NoAncestryPath CheckMode = "without --ancestry-path"
+)
+
+func CommitsBetween(a, b string, mode CheckMode) ([]Commit, error) {
 	var commits []Commit
-	stdout, stderr, err := run("git", "log", "--no-merges", "--oneline", "--ancestry-path", fmt.Sprintf("%s..%s", a, b))
+	args := []string{"git", "log", "--no-merges", "--oneline"}
+	if mode == AncestryPath {
+		args = append(args, "--ancestry-path")
+	}
+	args = append(args, fmt.Sprintf("%s..%s", a, b))
+	stdout, stderr, err := run(args...)
 	if err != nil {
 		if !IsCommit(a) || !IsCommit(b) {
 			return nil, ErrNotCommit

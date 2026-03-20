@@ -45,30 +45,46 @@ func main() {
 		start = mergeBase
 	}
 
-	commits, err := commitchecker.CommitsBetween(start, opts.End)
-	if err != nil {
-		if err == commitchecker.ErrNotCommit {
-			_, _ = fmt.Fprintf(os.Stderr, "WARNING: one of the provided commits does not exist, not a true branch\n")
-			os.Exit(0)
+	// failingChecks lists the modes whose errors cause a non-zero exit.
+	// To fail on both checks, add commitchecker.NoAncestryPath: true to the map.
+	failingChecks := map[commitchecker.CheckMode]bool{commitchecker.AncestryPath: true}
+
+	var failErrs []string
+	for _, mode := range []commitchecker.CheckMode{commitchecker.NoAncestryPath, commitchecker.AncestryPath} {
+		// NoAncestryPath uses the CLI-provided start (e.g. PULL_BASE_SHA) so that we
+		// find PR commits even when the branch has fallen behind main.
+		// AncestryPath uses the computed start (upstream merge base) to walk the correct
+		// linear carry path through the downstream repo.
+		checkStart := opts.Start
+		if mode == commitchecker.AncestryPath {
+			checkStart = start
 		}
-		_, _ = fmt.Fprintf(os.Stderr, "ERROR: couldn't find commits from %s..%s: %v\n", opts.Start, opts.End, err)
-		os.Exit(1)
+		commits, err := commitchecker.CommitsBetween(checkStart, opts.End, mode)
+		if err != nil {
+			if err == commitchecker.ErrNotCommit {
+				_, _ = fmt.Fprintf(os.Stderr, "WARNING: one of the provided commits does not exist, not a true branch\n")
+				os.Exit(0)
+			}
+			_, _ = fmt.Fprintf(os.Stderr, "ERROR: couldn't find commits from %s..%s (%s): %v\n", checkStart, opts.End, mode, err)
+			os.Exit(1)
+		}
+
+		_, _ = fmt.Fprintf(os.Stdout, "Validating %d commits between %s...%s (%s)\n", len(commits), checkStart, opts.End, mode)
+		for _, commit := range commits {
+			_, _ = fmt.Fprintf(os.Stdout, "Validating commit %+v (%s)\n", commit, mode)
+			for _, validate := range commitchecker.AllCommitValidators {
+				for _, e := range validate(commit) {
+					msg := fmt.Sprintf("[%s] %s", mode, e)
+					_, _ = fmt.Fprintf(os.Stderr, "%s\n\n", msg)
+					if failingChecks[mode] {
+						failErrs = append(failErrs, msg)
+					}
+				}
+			}
+		}
 	}
 
-	_, _ = fmt.Fprintf(os.Stdout, "Validating %d commits between %s...%s\n", len(commits), start, opts.End)
-	var errs []string
-	for _, commit := range commits {
-		_, _ = fmt.Fprintf(os.Stdout, "Validating commit %+v\n", commit)
-		for _, validate := range commitchecker.AllCommitValidators {
-			errs = append(errs, validate(commit)...)
-		}
-	}
-
-	if len(errs) > 0 {
-		for _, e := range errs {
-			_, _ = fmt.Fprintf(os.Stderr, "%s\n\n", e)
-		}
-
+	if len(failErrs) > 0 {
 		os.Exit(2)
 	}
 }
