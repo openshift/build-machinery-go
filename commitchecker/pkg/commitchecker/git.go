@@ -36,6 +36,20 @@ func IsCommit(a string) bool {
 }
 
 var ErrNotCommit = fmt.Errorf("one or both of the provided commits was not a valid commit")
+var ErrNoCommitsFound = fmt.Errorf("no commits found between start and end, but they resolve to different commits")
+
+// SameCommit returns true if a and b resolve to the same commit SHA.
+func SameCommit(a, b string) (bool, error) {
+	shaA, stderr, err := run("git", "rev-parse", a)
+	if err != nil {
+		return false, fmt.Errorf("rev-parse %s: %s: %w", a, stderr, err)
+	}
+	shaB, stderr, err := run("git", "rev-parse", b)
+	if err != nil {
+		return false, fmt.Errorf("rev-parse %s: %s: %w", b, stderr, err)
+	}
+	return strings.TrimSpace(shaA) == strings.TrimSpace(shaB), nil
+}
 
 // CheckMode controls whether git log uses --ancestry-path.
 type CheckMode string

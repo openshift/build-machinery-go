@@ -68,6 +68,19 @@ func main() {
 			_, _ = fmt.Fprintf(os.Stderr, "ERROR: couldn't find commits from %s..%s (%s): %v\n", checkStart, opts.End, mode, err)
 			os.Exit(1)
 		}
+		if len(commits) == 0 {
+			same, err := commitchecker.SameCommit(checkStart, opts.End)
+			if err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, "ERROR: couldn't compare commits %s and %s: %v\n", checkStart, opts.End, err)
+				os.Exit(1)
+			}
+			if !same {
+				_, _ = fmt.Fprintf(os.Stderr, "ERROR: no commits found between %s and %s (%s), but they are different commits\n", checkStart, opts.End, mode)
+				if failingChecks[mode] {
+					failErrs = append(failErrs, fmt.Sprintf("no commits found (%s)", mode))
+				}
+			}
+		}
 
 		_, _ = fmt.Fprintf(os.Stdout, "Validating %d commits between %s...%s (%s)\n", len(commits), checkStart, opts.End, mode)
 		for _, commit := range commits {
