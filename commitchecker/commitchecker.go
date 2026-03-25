@@ -57,6 +57,10 @@ func main() {
 	// in the DAG created by the downstream rebase process.
 	directCommits := listCommits(commitchecker.DirectCommitsBetween(start, opts.End))
 	_, _ = fmt.Fprintf(os.Stdout, "Validating %d direct commits between %s..%s\n", len(directCommits), start, opts.End)
+	if len(allCommits) > 0 && len(directCommits) == 0 {
+		_, _ = fmt.Fprintf(os.Stderr, "ERROR: found %d commits between %s..%s but none are on the direct ancestry path from %s; the PR branch may need to be rebased\n", len(allCommits), opts.Start, opts.End, start)
+		os.Exit(2)
+	}
 	if errs := validateCommits(directCommits); len(errs) > 0 {
 		os.Exit(2)
 	}
