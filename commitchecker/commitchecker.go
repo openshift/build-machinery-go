@@ -45,59 +45,49 @@ func main() {
 		start = mergeBase
 	}
 
-	// failingChecks lists the modes whose errors cause a non-zero exit.
-	// To fail on both checks, add commitchecker.NoAncestryPath: true to the map.
-	failingChecks := map[commitchecker.CheckMode]bool{commitchecker.AncestryPath: true}
+	// Diagnostic: find all commits reachable from end but not start. This catches
+	// every PR commit regardless of branch topology, so we can detect when the
+	// stricter direct-ancestry check below silently drops commits on stale branches.
+	allCommits := listCommits(commitchecker.AllCommitsBetween(opts.Start, opts.End))
+	_, _ = fmt.Fprintf(os.Stdout, "Validating all %d commits between %s..%s\n", len(allCommits), opts.Start, opts.End)
+	validateCommits(allCommits)
 
-	var failErrs []string
-	for _, mode := range []commitchecker.CheckMode{commitchecker.NoAncestryPath, commitchecker.AncestryPath} {
-		// NoAncestryPath uses the CLI-provided start (e.g. PULL_BASE_SHA) so that we
-		// find PR commits even when the branch has fallen behind main.
-		// AncestryPath uses the computed start (upstream merge base) to walk the correct
-		// linear carry path through the downstream repo.
-		checkStart := opts.Start
-		if mode == commitchecker.AncestryPath {
-			checkStart = start
-		}
-		commits, err := commitchecker.CommitsBetween(checkStart, opts.End, mode)
-		if err != nil {
-			if err == commitchecker.ErrNotCommit {
-				_, _ = fmt.Fprintf(os.Stderr, "WARNING: one of the provided commits does not exist, not a true branch\n")
-				os.Exit(0)
-			}
-			_, _ = fmt.Fprintf(os.Stderr, "ERROR: couldn't find commits from %s..%s (%s): %v\n", checkStart, opts.End, mode, err)
-			os.Exit(1)
-		}
-		if len(commits) == 0 {
-			same, err := commitchecker.SameCommit(checkStart, opts.End)
-			if err != nil {
-				_, _ = fmt.Fprintf(os.Stderr, "ERROR: couldn't compare commits %s and %s: %v\n", checkStart, opts.End, err)
-				os.Exit(1)
-			}
-			if !same {
-				_, _ = fmt.Fprintf(os.Stderr, "ERROR: no commits found between %s and %s (%s), but they are different commits\n", checkStart, opts.End, mode)
-				if failingChecks[mode] {
-					failErrs = append(failErrs, fmt.Sprintf("no commits found (%s)", mode))
-				}
-			}
-		}
-
-		_, _ = fmt.Fprintf(os.Stdout, "Validating %d commits between %s...%s (%s)\n", len(commits), checkStart, opts.End, mode)
-		for _, commit := range commits {
-			_, _ = fmt.Fprintf(os.Stdout, "Validating commit %+v (%s)\n", commit, mode)
-			for _, validate := range commitchecker.AllCommitValidators {
-				for _, e := range validate(commit) {
-					msg := fmt.Sprintf("[%s] %s", mode, e)
-					_, _ = fmt.Fprintf(os.Stderr, "%s\n\n", msg)
-					if failingChecks[mode] {
-						failErrs = append(failErrs, msg)
-					}
-				}
-			}
-		}
-	}
-
-	if len(failErrs) > 0 {
+	// Enforced: find only commits on the direct descent path from the upstream
+	// merge-base to end. This excludes upstream commits reached via side branches
+	// in the DAG created by the downstream rebase process.
+	directCommits := listCommits(commitchecker.DirectCommitsBetween(start, opts.End))
+	_, _ = fmt.Fprintf(os.Stdout, "Validating %d direct commits between %s..%s\n", len(directCommits), start, opts.End)
+	if len(allCommits) > 0 && len(directCommits) == 0 {
+		_, _ = fmt.Fprintf(os.Stderr, "ERROR: found %d commits between %s..%s but none are on the direct ancestry path from %s; the PR branch may need to be rebased\n", len(allCommits), opts.Start, opts.End, start)
 		os.Exit(2)
 	}
+	if errs := validateCommits(directCommits); len(errs) > 0 {
+		os.Exit(2)
+	}
+}
+
+func listCommits(commits []commitchecker.Commit, err error) []commitchecker.Commit {
+	if err != nil {
+		if err == commitchecker.ErrNotCommit {
+			_, _ = fmt.Fprintf(os.Stderr, "WARNING: one of the provided commits does not exist, not a true branch\n")
+			os.Exit(0)
+		}
+		_, _ = fmt.Fprintf(os.Stderr, "ERROR: couldn't list commits: %v\n", err)
+		os.Exit(1)
+	}
+	return commits
+}
+
+func validateCommits(commits []commitchecker.Commit) []string {
+	var errs []string
+	for _, commit := range commits {
+		_, _ = fmt.Fprintf(os.Stdout, "Validating commit %+v\n", commit)
+		for _, validate := range commitchecker.AllCommitValidators {
+			for _, e := range validate(commit) {
+				_, _ = fmt.Fprintf(os.Stderr, "%s\n\n", e)
+				errs = append(errs, e)
+			}
+		}
+	}
+	return errs
 }

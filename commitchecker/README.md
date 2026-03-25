@@ -57,3 +57,35 @@ tests:
 ```
 
 There is no code or `<carry>` patch needed in your repository!
+
+# Limitations
+
+## Stale PR branches and `--ancestry-path`
+
+The commitchecker uses `git log --ancestry-path` to validate only the commits on the
+direct descent path from the upstream merge-base. This is necessary to correctly
+handle the complex DAG created by OpenShift's downstream rebase process (see
+[ancestry-path.md](ancestry-path.md) for details).
+
+When a PR branch has fallen behind `main`, the PR commits may not be direct
+descendants of the start ref, so `--ancestry-path` excludes them. The commitchecker
+detects this by also running without `--ancestry-path` to find all reachable commits.
+If commits exist but none are on the direct ancestry path, the checker fails with:
+
+```
+ERROR: found N commits between X..Y but none are on the direct ancestry path from Z; the PR branch may need to be rebased
+```
+
+### How to read the CI logs
+
+The commitchecker runs two passes and logs the results of each:
+
+- `Validating all N commits between X..Y` — the total number of commits reachable
+  from end but not start, regardless of branch topology.
+- `Validating N direct commits between X..Y` — the number of commits on the direct
+  ancestry path from the merge-base to end. Only these are enforced.
+
+### How to fix it
+
+Rebase or merge your PR branch onto the current `main` so that your commits become
+direct descendants of `PULL_BASE_SHA`, then re-run CI.
