@@ -51,29 +51,28 @@ func SameCommit(a, b string) (bool, error) {
 	return strings.TrimSpace(shaA) == strings.TrimSpace(shaB), nil
 }
 
-// CheckMode controls whether git log uses --ancestry-path.
-type CheckMode string
+// DirectCommitsBetween returns commits on the direct ancestry path from a to b,
+// using --ancestry-path to exclude commits reachable via side branches.
+func DirectCommitsBetween(a, b string) ([]Commit, error) {
+	return gitLog(a, b, "--no-merges", "--ancestry-path")
+}
 
-const (
-	// AncestryPath uses --ancestry-path, walking the linear carry path through the downstream repo.
-	AncestryPath CheckMode = "with --ancestry-path"
-	// NoAncestryPath omits --ancestry-path, finding all commits reachable from end but not start.
-	NoAncestryPath CheckMode = "without --ancestry-path"
-)
+// AllCommitsBetween returns all non-merge commits reachable from b but not from a.
+func AllCommitsBetween(a, b string) ([]Commit, error) {
+	return gitLog(a, b, "--no-merges")
+}
 
-func CommitsBetween(a, b string, mode CheckMode) ([]Commit, error) {
+func gitLog(a, b string, extraArgs ...string) ([]Commit, error) {
 	var commits []Commit
-	args := []string{"git", "log", "--no-merges", "--oneline"}
-	if mode == AncestryPath {
-		args = append(args, "--ancestry-path")
-	}
+	args := []string{"git", "log", "--oneline"}
+	args = append(args, extraArgs...)
 	args = append(args, fmt.Sprintf("%s..%s", a, b))
 	stdout, stderr, err := run(args...)
 	if err != nil {
 		if !IsCommit(a) || !IsCommit(b) {
 			return nil, ErrNotCommit
 		}
-		return nil, fmt.Errorf("error executing git log: %s: %s", stderr, err)
+		return nil, fmt.Errorf("error executing %s: %s: %s", strings.Join(args, " "), stderr, err)
 	}
 	for _, log := range strings.Split(stdout, "\n") {
 		if len(log) == 0 {
