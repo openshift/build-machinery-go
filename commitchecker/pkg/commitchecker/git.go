@@ -97,9 +97,6 @@ func NewCommitFromOnelineLog(log string) (Commit, error) {
 	}
 	commit.Sha = parts[0]
 	commit.Summary = strings.Join(parts[1:], " ")
-	if err != nil {
-		return commit, err
-	}
 	commit.Email, err = emailInCommit(commit.Sha)
 	if err != nil {
 		return commit, err
