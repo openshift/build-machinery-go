@@ -60,10 +60,15 @@ ifndef OS_GIT_VERSION
 	OS_GIT_VERSION = $(SOURCE_GIT_TAG)
 endif
 
+BUILD_DATE_FORMAT ?='%Y-%m-%dT%H:%M:%SZ'
+ifneq "$(DONT_CLOBBER_MY_GO_BUILD_CACHE_PLEASE)" ""
+BUILD_DATE_FORMAT ='%Y-%m-%d'
+endif
+
 define version-ldflags
 -X $(1).versionFromGit="$(OS_GIT_VERSION)" \
 -X $(1).commitFromGit="$(SOURCE_GIT_COMMIT)" \
 -X $(1).gitTreeState="$(SOURCE_GIT_TREE_STATE)" \
--X $(1).buildDate="$(shell date -u +'%Y-%m-%dT%H:%M:%SZ')"
+-X $(1).buildDate="$(shell date -u +$(BUILD_DATE_FORMAT))"
 endef
 GO_LD_FLAGS ?=-ldflags "$(call version-ldflags,$(GO_PACKAGE)/pkg/version) $(GO_LD_EXTRAFLAGS)"
