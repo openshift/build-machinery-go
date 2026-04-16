@@ -9,10 +9,11 @@ test-build:
 	[[ -f ./oc ]]
 
 	# test version is set correctly when linking
-	#   majorFromGit, minorFromGit are deprecated upstream and set to empty value
+	#   majorFromGit is deprecated upstream but we use it to populate the OCP major version during build pipelines
+	#   minorFromGit are deprecated upstream and set to empty value
 	#   we avoid comparing time to avoid flakes
 	diff <( ./oc | sed '$$d' ) <( \
-		echo '' && \
+		echo '0' && \
 		echo '' && \
 		echo 'aaa' && \
 		echo 'v42.43.44' && \
