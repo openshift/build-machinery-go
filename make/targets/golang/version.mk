@@ -41,6 +41,10 @@ define verify-golang-version-reference-internal
 verify-golang-versions-$(1): .empty-golang-versions-files
 verify-golang-versions-$(1):
 	@mkdir -p "$(PERMANENT_TMP)"
+	@if ! echo "$(2)" | grep -qxE '[0-9]+\.[0-9]+'; then \
+		echo "Error: could not extract a valid golang version from $(1) (got '$(2)')"; \
+		false; \
+	fi
 	@echo "$(1): $(2)" >> "$(PERMANENT_TMP)/named-golang-versions"
 	@echo "$(2)" >> "$(PERMANENT_TMP)/golang-versions"
 .PHONY: verify-golang-versions-$(1)

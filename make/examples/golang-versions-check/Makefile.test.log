@@ -17,3 +17,9 @@ Golang version mismatch:
 - go.mod: 1.16
 - images/Dockerfile-1.15: 1.15
 make[2]: *** [verify-golang-versions] Error 1
+Error: could not extract a valid golang version from images/Dockerfile-malformed (got 'FROM golang:1.22 AS builder')
+make[2]: *** [verify-golang-versions-images/Dockerfile-malformed] Error 1
+Error: could not extract a valid golang version from images/Dockerfile-no-golang-version (got 'FROM registry.ci.openshift.org/ocp/builder:rhel-8-openshift-4.8 AS builder')
+make[2]: *** [verify-golang-versions-images/Dockerfile-no-golang-version] Error 1
+Error: could not extract a valid golang version from simulated-empty-source (got '')
+make[2]: *** [verify-golang-versions-simulated-empty-source] Error 1
