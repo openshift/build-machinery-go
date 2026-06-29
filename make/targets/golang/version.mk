@@ -1,3 +1,23 @@
+# verify-golang-versions — ensure Go versions are consistent across build sources.
+#
+# OpenShift repos declare a Go version in up to three places: go.mod,
+# Dockerfile (builder image tag), and .ci-operator.yaml (CI build root).
+# When these drift apart, builds can silently use the wrong Go version or
+# fail in hard-to-diagnose ways. In particular, if go.mod declares a version
+# higher than the CI builder, the build fails because GOTOOLCHAIN=local
+# prevents Go from downloading a newer toolchain. This target catches
+# that drift at verify time by extracting the Go MAJOR.MINOR from each source
+# and comparing them.
+#
+# Rules:
+#   1. All CI sources (Dockerfile, .ci-operator.yaml) must declare the same Go version.
+#   2. go.mod may declare a version <= the CI version (Go is backward-compatible).
+#   3. go.mod must NOT declare a version higher than the CI builder.
+#   4. Every extracted version must be a valid MAJOR.MINOR number.
+#
+# Usage:
+#   $(call verify-golang-versions,Dockerfile.rhel7)
+
 include $(addprefix $(dir $(lastword $(MAKEFILE_LIST))), \
 	../../lib/golang.mk \
 	../../lib/tmp.mk \
