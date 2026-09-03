@@ -15,9 +15,44 @@ var (
 )
 
 type Commit struct {
-	Sha     string
-	Summary string
-	Email   string
+	Sha          string
+	Summary      string
+	Email        string
+	files        []string
+	filesLoaded  bool
+	fileContents map[string]string
+}
+
+func (c *Commit) Files() ([]string, error) {
+	if c.filesLoaded {
+		return c.files, nil
+	}
+	stdout, stderr, err := run("git", "diff-tree", "--no-commit-id", "-r", "--name-only", c.Sha)
+	if err != nil {
+		return nil, fmt.Errorf("failed to list files for %s: %s: %w", c.Sha, stderr, err)
+	}
+	for _, f := range strings.Split(strings.TrimSpace(stdout), "\n") {
+		if f != "" {
+			c.files = append(c.files, f)
+		}
+	}
+	c.filesLoaded = true
+	return c.files, nil
+}
+
+func (c *Commit) FileContent(path string) (string, error) {
+	if c.fileContents == nil {
+		c.fileContents = map[string]string{}
+	}
+	if content, ok := c.fileContents[path]; ok {
+		return content, nil
+	}
+	stdout, stderr, err := run("git", "show", fmt.Sprintf("%s:%s", c.Sha, path))
+	if err != nil {
+		return "", fmt.Errorf("failed to read %s at %s: %s: %w", path, c.Sha, stderr, err)
+	}
+	c.fileContents[path] = stdout
+	return stdout, nil
 }
 
 func (c Commit) MatchesMergeSummaryPattern() bool {

@@ -4,8 +4,11 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/openshift/build-machinery-go/commitchecker/pkg/commitchecker"
+	"github.com/openshift/build-machinery-go/commitchecker/pkg/commitchecker/validatorloader"
+	"github.com/openshift/build-machinery-go/commitchecker/pkg/commitchecker/validatorruntime"
 	"github.com/openshift/build-machinery-go/commitchecker/pkg/version"
 )
 
@@ -55,20 +58,81 @@ func main() {
 		os.Exit(1)
 	}
 
+	var entries []string
+	if cliValidators := opts.ValidatorsList(); len(cliValidators) > 0 {
+		entries = cliValidators
+	} else if cfg != nil && len(cfg.Validators) > 0 {
+		entries = cfg.Validators
+	}
+
+	validators, err := resolveValidators(entries)
+	if err != nil {
+		_, _ = fmt.Fprintf(os.Stderr, "ERROR: invalid validators: %v\n", err)
+		os.Exit(1)
+	}
+
 	_, _ = fmt.Fprintf(os.Stdout, "Validating %d commits between %s...%s\n", len(commits), start, opts.End)
-	var errs []string
+	var errs []error
 	for _, commit := range commits {
 		_, _ = fmt.Fprintf(os.Stdout, "Validating commit %+v\n", commit)
-		for _, validate := range commitchecker.AllCommitValidators {
-			errs = append(errs, validate(commit)...)
+		for _, v := range validators {
+			for _, e := range v.Validate(&commit) {
+				errs = append(errs, fmt.Errorf("FAILED: [%s] commit: %s, error: %q, title: %q", v.Name(), commit.Sha, e, commit.Summary))
+			}
 		}
 	}
 
 	if len(errs) > 0 {
+		_, _ = fmt.Fprintf(os.Stderr, "--------------------------------\n")
+		_, _ = fmt.Fprintf(os.Stderr, "Validation found %d issues:\n", len(errs))
+		_, _ = fmt.Fprintf(os.Stderr, "--------------------------------\n")
 		for _, e := range errs {
-			_, _ = fmt.Fprintf(os.Stderr, "%s\n\n", e)
+			_, _ = fmt.Fprintf(os.Stderr, "%s\n", e)
 		}
 
 		os.Exit(2)
 	}
+
+	_, _ = fmt.Fprintf(os.Stdout, "Validation completed successfully\n")
+}
+
+func resolveValidators(entries []string) ([]commitchecker.Validator, error) {
+	if len(entries) == 0 {
+		return commitchecker.ValidatorsForNames(nil)
+	}
+
+	engine := validatorruntime.NewEngine()
+	var validators []commitchecker.Validator
+
+	for _, entry := range entries {
+		if validatorloader.IsDynamicSource(entry) {
+			src, err := validatorloader.Load(entry)
+			if err != nil {
+				return nil, fmt.Errorf("failed to load validator %q: %w", entry, err)
+			}
+			name := validatorNameFromSource(entry)
+			v, err := engine.LoadValidator(name, src)
+			if err != nil {
+				return nil, fmt.Errorf("failed to initialize validator %q: %w", entry, err)
+			}
+			validators = append(validators, v)
+		} else {
+			resolved, err := commitchecker.ValidatorsForNames([]string{entry})
+			if err != nil {
+				return nil, err
+			}
+			validators = append(validators, resolved...)
+		}
+	}
+
+	return validators, nil
+}
+
+func validatorNameFromSource(source string) string {
+	base := filepath.Base(source)
+	ext := filepath.Ext(base)
+	if ext != "" {
+		return base[:len(base)-len(ext)]
+	}
+	return base
 }

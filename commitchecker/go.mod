@@ -9,3 +9,5 @@ require (
 	k8s.io/apimachinery v0.32.3
 	sigs.k8s.io/yaml v1.4.0
 )
+
+require github.com/traefik/yaegi v0.16.1 // indirect

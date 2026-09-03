@@ -17,6 +17,9 @@ type Config struct {
 	UpstreamBranch string `json:"upstreamBranch,omitempty"`
 	// ExpectedMergeBase is the latest commit from the upstream that is expected to be present in this downstream
 	ExpectedMergeBase string `json:"expectedMergeBase,omitempty"`
+	// Validators is the list of validators to run. Each entry is either a built-in
+	// validator name or a dynamic validator source (local path, git://, or https:// URL).
+	Validators []string `json:"validators,omitempty"`
 }
 
 // Load returns a configuration from the path, if one exists. If no configuration file is present,
