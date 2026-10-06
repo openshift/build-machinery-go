@@ -43,3 +43,25 @@ and how to regenerate checked-in makefile logs.
 
 For architecture details, see [ARCHITECTURE.md](ARCHITECTURE.md). For AI agent
 instructions, see [AGENTS.md](AGENTS.md) ([CLAUDE.md](CLAUDE.md) references it via `@AGENTS.md`).
+
+## Optional crypto source inventory
+
+`make crypto-inventory` invokes a pinned `check-payload` supplied by the build
+root and writes `_output/crypto-inventory/source.json`. It is opt-in and does not
+change `make verify`. Select only executable packages shipped in the component's
+images, and run in the production build environment:
+
+```sh
+make crypto-inventory CRYPTO_SCANNER=/tools/check-payload \
+  CRYPTO_SOURCE_PACKAGES='./cmd/server ./cmd/helper' \
+  CRYPTO_COMPONENT=example CRYPTO_CGO_ENABLED=1
+```
+
+The target passes `GOOS`, `GOARCH`, `GO_MOD_FLAGS` and `GO_BUILD_FLAGS`. Override
+`CRYPTO_BUILD_FLAGS` if the production build uses additional tags. Analysis lives
+in check-payload; this repository provides invocation only. Test executables and
+custom Kubernetes build scripts can invoke the scanner directly. Findings are
+provisional classifications, and incomplete analysis fails the target while
+preserving the JSON report. CI must publish and schema-validate the report, and
+collect shipped-binary evidence separately. See the check-payload crypto inventory
+documentation for limits and rollout guidance.
