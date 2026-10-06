@@ -3,6 +3,7 @@ all
 build
 clean
 clean-binaries
+crypto-inventory
 ensure-imagebuilder
 help
 image-ocp-cli

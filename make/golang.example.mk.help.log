@@ -3,6 +3,7 @@ all
 build
 clean
 clean-binaries
+crypto-inventory
 help
 test
 test-unit

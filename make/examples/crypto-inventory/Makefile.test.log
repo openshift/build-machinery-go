@@ -1,0 +1,10 @@
+make crypto-inventory
+mkdir -p './report/'
+'./scanner.sh' inventory source \
+	--dir . --packages './cmd/server,./cmd/helper' --component 'example.com/component' \
+	--goos 'linux' --goarch 'amd64' --cgo-enabled '0' \
+	--build-flag='-mod=vendor' --build-flag='-tags=production' --build-flag='-trimpath' \
+	--output-file './report/source.json'
+inventory source --dir . --packages ./cmd/server,./cmd/helper --component example.com/component --goos linux --goarch amd64 --cgo-enabled 0 --build-flag=-mod=vendor --build-flag=-tags=production --build-flag=-trimpath --output-file ./report/source.json
+test -f ./report/source.json
+rm -rf ./report
