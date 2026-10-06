@@ -1,0 +1,7 @@
+SHELL :=/bin/bash -euo pipefail
+
+test:
+	$(MAKE) crypto-inventory
+	test -f ./report/source.json
+	rm -rf ./report
+.PHONY: test

@@ -5,6 +5,7 @@ clean
 clean-binaries
 clean-yaml-patch
 clean-yq
+crypto-inventory
 ensure-imagebuilder
 ensure-yaml-patch
 ensure-yq
